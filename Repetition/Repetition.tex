@@ -1,0 +1,81 @@
+
+\chapter{Code de Répétition}
+
+    \section{Introduction}
+
+        \paragraph{}
+On transmet simplement plusieurs fois le même message, on double les bits à transmettre pour recevoir deux fois le même message,
+si les messages reçus ne concordent pas, alors il y a eu une erreur dans la transmission.
+On peut choisir deux méthodes pour doubler les bits, doubler chaque bit ou doubler le message complet.
+\\ Exemple :
+\\ 101 deviens 110011 si on double chaque bit
+\\ 101 deviens 101101 si on double le message
+
+
+    \clearpage
+
+    \section{Fiabilité}
+
+        \paragraph{}
+Une seule erreur peut être détectée à coup sur.
+Les erreurs ne sont pas detectés dans les cas d'un nombre d'erreur pair se situant au même bits dans les deux messages envoyés.
+
+
+    \section{Probabilité de détection}
+
+        \paragraph{}
+Nombre d'erreurs qui ne sont pas détectées (par dénombrement des cas d'indection cités précédement):
+\[  \text{Nombre d'erreurs indétectables} = 123 \]
+Nombre de cas totaux :
+\[  \text{Nombre de cas} = 2^{(7*2)} \]
+Probabilité de détection :
+\[  P(\text{Détection}) = \frac{\text{Nombre de cas} - \text{Nombre d'erreurs indétectables}}{\text{Nombre de cas}}*100 \]
+On obtient alors :
+\[  P(\text{Détection}) = \frac{2^{(7*2)} - 123}{2^{(7*2)}} \]
+\[  P(\text{Détection}) \approx 99.25\% \]
+
+
+    \section{Rendement}
+
+        \paragraph{}
+Le rendement de ce code est très mauvais, on double au minimum la taille du message :
+\[  Rendement = \text{Taille du message}*\text{Nombre de répétitions} \]
+Pour un message sur 7 bits (un simple caractère encodé en UTF-7 par exemple) et avec 1 répétition seulement :
+\[  Rendement = \frac{7}{7*2} = 50\% \]
+Pour le même message mais avec 2 répétitions :
+\[  Rendement = \frac{7}{7*3} \approx 33.3\% \]
+
+
+    \clearpage
+    \section{Exemple pratique}
+
+        \lstset{
+            language=bash, basicstyle=\ttfamily\small, columns=flexible,
+            tabsize=2, extendedchars=true, showspaces=false,
+            showstringspaces=false, numbers=left, numberstyle=\tiny,
+            breaklines=true, breakautoindent=true, captionpos=b
+        }
+Voir détail du code en annexe.
+        \begin{lstlisting}
+>> perl envoiNoise.pl 8000 127.0.0.1:9000
+
+ -> envoi du caractere : o
+
+ -> nombre de caracteres envoyes : 100000
+
+        \end{lstlisting}
+
+        \begin{lstlisting}
+
+>> perl receptionNoise.pl 9000 127.0.0.1:8000
+
+ -> nombre de receptions : 100000
+ -> nombre de receptions supposees bonnes : 18867
+ -> nombre de vrais bons caracteres : 18255
+ -> nombre d'erreurs au total : 81745
+ -> nombre d'erreurs detectees : 81133
+ -> nombre d'erreurs non detectees : 612
+ -> fiabilitee de l'envoi/reception : 18.255%
+ -> fiabilitee de detection d'erreur : 99.2513303565967%
+
+        \end{lstlisting}
