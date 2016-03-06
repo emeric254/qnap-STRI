@@ -22,8 +22,8 @@ SERVICE = BEGIN
 	Tdebut := TIME;
 	WRITELN(cbSRC,TIME," ",CUSTNB(SRC));
 	WRITELN(cbSRC,TIME," ",CUSTNB(SRC)-1);
-	WRITELN(cbDST,TIME," ",CUSTNB(Q));
-	WRITELN(cbDST,TIME," ",CUSTNB(Q)+1);
+	WRITELN(cbQ,TIME," ",CUSTNB(Q));
+	WRITELN(cbQ,TIME," ",CUSTNB(Q)+1);
 END;
 TRANSIT = Q;
 
@@ -63,9 +63,9 @@ BEGIN
 	WRITELN("LAMBDA = ", LAMBDA);
 	somnbpsg := 0;
 	sommeT := 0;
-	FILASSIGN(cbSRC,"courbeSource0.1.data");
-	FILASSIGN(cbDST,"courbeDestination0.1.data");
-	FILASSIGN(cbQ,"courbeQ0.1.data");
+	FILASSIGN(cbSRC,"courbeSource0.5.data");
+	FILASSIGN(cbDST,"courbeDestination0.5.data");
+	FILASSIGN(cbQ,"courbeQ0.5.data");
 	OPEN(cbSRC);
 	OPEN(cbDST);
 	OPEN(cbQ);
