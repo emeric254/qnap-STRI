@@ -4,38 +4,26 @@ REAL LAMBDA, RO;
 REAL MU = 1000;
 INTEGER I;
 QUEUE fakeOUT;
-REAL somnbpsg;
+REAL temps;
 REAL sommeT;
 CUSTOMER INTEGER nbpsg;
 CUSTOMER REAL Tdebut;
 
-FILE cbSRC;
 FILE cbQ;
-FILE cbDST;
 
 /STATION/
 NAME = SRC;
 TYPE = SOURCE;
 SERVICE = BEGIN
-	nbpsg := 0;
-	EXP(1./LAMBDA);
-	Tdebut := TIME;
-	WRITELN(cbSRC,TIME," ",CUSTNB(SRC));
-	WRITELN(cbSRC,TIME," ",CUSTNB(SRC)-1);
-	WRITELN(cbQ,TIME," ",CUSTNB(Q));
-	WRITELN(cbQ,TIME," ",CUSTNB(Q)+1);
+    EXP(1./LAMBDA);
+    Tdebut := TIME;
 END;
 TRANSIT = Q;
 
 /STATION/
 NAME = Q;
 SERVICE = BEGIN
-	EXP(1./MU);
-	nbpsg := nbpsg + 1;
-	WRITELN(cbQ,TIME," ",CUSTNB(Q));
-	WRITELN(cbQ,TIME," ",CUSTNB(Q)-1);
-	WRITELN(cbDST,TIME," ",CUSTNB(fakeOUT));
-	WRITELN(cbDST,TIME," ",CUSTNB(fakeOUT)+1);
+    EXP(1./MU);
 END;
 TRANSIT = fakeOUT;
 
@@ -43,8 +31,9 @@ TRANSIT = fakeOUT;
 /STATION/
 NAME = fakeOUT;
 SERVICE = BEGIN
-	sommeT := sommeT + (TIME - Tdebut);
-	somnbpsg := somnbpsg + nbpsg;
+    temps := TIME - Tdebut;
+    sommeT := sommeT + temps;
+    WRITELN(cbQ, I ," ", temps," ",CUSTNB(SRC)," ", CUSTNB(SRC)-1," ", CUSTNB(Q)," ", CUSTNB(Q)+1);
 END;
 TRANSIT = OUT;
 
@@ -53,26 +42,21 @@ TMAX = 1000;
 
 /EXEC/
 BEGIN
-& On fait varier RO pour qu'il prenne 3 valeurs définies et qu'on realise nos mesures (0.1 / 0.4 / 0.9)
-&FOR I := 1 STEP 4 UNTIL 9 DO
+& On fait varier RO pour qu'il prenne 9 valeurs définies et qu'on realise nos mesures (0.1 , ... , 0.9)
+&FOR I := 1 STEP 1 UNTIL 9 DO
 BEGIN
-	I:= 1
-	RO := I*0.10;
-	LAMBDA := RO * MU;
-	WRITELN("RO = ", RO);
-	WRITELN("LAMBDA = ", LAMBDA);
-	somnbpsg := 0;
-	sommeT := 0;
-	FILASSIGN(cbSRC,"courbeSource0.1.data");
-	FILASSIGN(cbDST,"courbeDestination0.1.data");
-	FILASSIGN(cbQ,"courbeQ0.1.data");
-	OPEN(cbSRC);
-	OPEN(cbDST);
-	OPEN(cbQ);
-	SIMUL;
-	WRITELN("moy nb passage :    e = ",somnbpsg/SERVNB(fakeOUT));
-	WRITELN("moy temp reponse :  R = ",sommeT/SERVNB(fakeOUT));
-	END;
+    I:= 1
+    RO := I*0.10;
+    LAMBDA := RO * MU;
+    WRITELN("RO = ", RO);
+    WRITELN("LAMBDA = ", LAMBDA);
+    somnbpsg := 0;
+    sommeT := 0;
+    FILASSIGN(cbQ,"courbeQ0.1.data");
+    OPEN(cbQ);
+    SIMUL;
+    WRITELN("moy temp reponse :  R = ",sommeT/SERVNB(fakeOUT));
+    END;
 END;
 
 /END/
