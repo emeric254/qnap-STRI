@@ -11,9 +11,9 @@ QUEUE fakeOUT;
 
 REAL temps;
 
-REAL minAttente;
-REAL maxAttente;
-REAL sommeAttente;
+REAL minAtt;
+REAL maxAtt;
+REAL sommeAtt;
 
 REAL minT;
 REAL maxT;
@@ -24,7 +24,7 @@ CUSTOMER REAL Tdebut;
 
 FILE cbQ;
 
-#
+
 /STATION/
 
 NAME = SRC;
@@ -35,7 +35,7 @@ SERVICE = BEGIN
 END;
 TRANSIT = Q;
 
-#
+
 /STATION/
 
 NAME = Q;
@@ -44,45 +44,45 @@ SERVICE = BEGIN
 END;
 TRANSIT = fakeOUT;
 
-#
+
 /STATION/
 
 NAME = fakeOUT;
 SERVICE = BEGIN
     temps := (TIME - Tdebut);
-#
+
     sommeT := sommeT + temps;
-#
+
     IF minT > temps THEN
     BEGIN
         minT := temps;
-    END
-#
+    END;
+
     IF maxT < temps THEN
     BEGIN
         maxT := temps;
-    END
-#
-    sommeAttente := CUSTNB(Q);
-#
-    IF minAttente > CUSTNB(Q) THEN
+    END;
+
+    sommeAtt := CUSTNB(Q);
+
+    IF minAtt > CUSTNB(Q) THEN
     BEGIN
-        minAttente := CUSTNB(Q);
-    END
-#
-    IF maxAttente < CUSTNB(Q) THEN
+        minAtt := CUSTNB(Q);
+    END;
+
+    IF maxAtt < CUSTNB(Q) THEN
     BEGIN
-        maxAttente := CUSTNB(Q);
-    END
+        maxAtt := CUSTNB(Q);
+    END;
 END;
 TRANSIT = OUT;
 
-#
+
 /CONTROL/
 
 TMAX = 1000;
 
-#
+
 /EXEC/
 
 BEGIN
@@ -94,16 +94,17 @@ BEGIN
         RO := I * 0.010;
         LAMBDA := RO * MU;
 
-        minAttente := 10000000;
-        maxAttente := 0;
-        sommeAttente := 0;
+        minAtt := 10000000;
+        maxAtt := 0;
+        sommeAtt := 0;
 
         minT := 10000000;
         maxT := 0;
         sommeT := 0;
 
         SIMUL;
-        WRITELN(cbQ, I , " " , minT , " " , maxT , " " , sommeT / SERVNB(fakeOUT) , " " , minAttente , " " , maxAttente , " " , sommeAttente / SERVNB(fakeOUT));
+	WRITELN(I);
+        WRITELN(cbQ,I," ",minT," ",maxT," ",sommeT/SERVNB(fakeOUT)," ",minAtt," ",maxAtt," ",sommeAtt/SERVNB(fakeOUT));
     END;
 END;
 
