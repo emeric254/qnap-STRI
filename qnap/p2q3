@@ -63,9 +63,9 @@ BEGIN
 	WRITELN("LAMBDA = ", LAMBDA);
 	somnbpsg := 0;
 	sommeT := 0;
-	FILASSIGN(cbSRC,"courbeSource0.5.data");
-	FILASSIGN(cbDST,"courbeDestination0.5.data");
-	FILASSIGN(cbQ,"courbeQ0.5.data");
+	FILASSIGN(cbSRC,"courbeSource0.1.data");
+	FILASSIGN(cbDST,"courbeDestination0.1.data");
+	FILASSIGN(cbQ,"courbeQ0.1.data");
 	OPEN(cbSRC);
 	OPEN(cbDST);
 	OPEN(cbQ);
