@@ -7,10 +7,19 @@
 %
             \paragraph{}
 Considérons un lien d'un réseau à commutation de circuits permettant de véhiculer de la voix téléphonique.
+            %    \begin{figure} % on s'en fout de l'image moche, c'est juste pour test xD
+            %        \begin{center}
+                        %\includegraphics{network.png}
+                        %\includegraphics[height=128, width=128]{network.png}
+                        %\includegraphics[scale=0.5]{network.png}
+            %        \end{center}
+            %            \caption{ Laule } % ce qui apparait juste en dessous de l'image
+            %            \label{c'est styler !}
+            %    \end{figure}
 %
             \paragraph{}
 Chacune des connexions nécessite un débit de 64 Kb/s bi-directionnels.
-On peut multiplexer simultanément C appels téléphoniques sur ce lien.
+On peut multiplexer simultanément $C$ appels téléphoniques sur ce lien.
 %
         \paragraph{}
         Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées des nouveaux appels suivent une loi de paramètre, les durées des appels sont supposées suivre une loi exponentielle de paramètre , (1\u = 3 min).
@@ -37,17 +46,33 @@ Blablabla
 %
             \paragraph{}
 Désormais, nous considérons le réseau composé des 3 nœuds suivant :
+            %    \begin{figure} % on s'en fout de l'image moche, c'est juste pour test xD
+            %        \begin{center}
+                        %\includegraphics{network.png}
+                        %\includegraphics[height=128, width=128]{network.png}
+                        %\includegraphics[scale=0.5]{network.png}
+            %        \end{center}
+            %            \caption{ Laule } % ce qui apparait juste en dessous de l'image
+            %            \label{c'est styler !}
+            %    \end{figure}
 %
             \paragraph{}
 Les arrivées sont supposées Poissonniennes sur chacun des nœuds et le trafic se répartit équiprobablement entre les différents nœuds.
 Les durées des appels sont supposées exponentielles de même paramètre que dans la première partie (1-a).
 Nous ne considérons pas les appels locaux ni les appels qui n'aboutissent pas (absence).
 %
-        \paragraph{}
-        Déterminer les probabilités de blocage dans le cas où l'on autorise le chemin de débordement en cas de saturation du chemin direct. Comparer avec les résultats de la partie (1-a) (on choisira donc des charges de trafic et des capacités de liens équivalentes).
-
-        \paragraph{}
-        Le mécanisme précédent pose des problèmes à très forte charge (charge normalisée !). Une solution consiste à n'utiliser le chemin de débordement que lorsque celui-ci n'est pas très encombré (en dessous d'un certain seuil d'occupation sur chacun des liens). Cela revient donc à laisser une marge M aux appels directs. Commenter ce choix. Faire une simulation en prenant une marge comprise entre 1 et 3 par exemple.
+        \subsection{Déterminer les probabilités de blocage dans le cas où l'on autorise le chemin de débordement en cas de saturation du chemin direct}
+%
+        \subsection{Comparer avec les résultats de la partie (1-a) (on choisira donc des charges de trafic et des capacités de liens équivalentes)}
+%
+        \subsection{Problèmes à très forte charge !}
+            \paragraph{}
+Une solution consiste à n'utiliser le chemin de débordement que lorsque celui-ci n'est pas très encombré (en dessous d'un certain seuil d'occupation sur chacun des liens).
+Cela revient donc à laisser une marge M aux appels directs.
+%
+            \subsubsection{Commenter ce choix}
+%
+            \subsubsection{Simulation en prenant une marge comprise entre 1 et 3 par exemple}
 %
     \clearpage
 %

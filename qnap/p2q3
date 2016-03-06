@@ -67,7 +67,7 @@ SERVICE = BEGIN
         maxT := temps;
     END;
 
-    sumA := CUSTNB(Q);
+    sumA := sumA + CUSTNB(Q);
 
     IF minA > CUSTNB(Q) THEN
     BEGIN
