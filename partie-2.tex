@@ -4,13 +4,28 @@
     \section{Un commutateur de paquets}
 
         \paragraph{}
-        Nous cherchons à simuler un lien de sortie d'un commutateur de paquets. L'arrivée des paquets est supposée suivre une loi exponentielle de paramètre . Nous positionnons une file en sortie du commutateur pour stocker les différents paquets. Les paquets ont une longueur exponentiellement distribuée de paramètre . 1 / u = 10 000 bits. Le lien de sortie a un débit = 10 Mbit/s.
+        Nous cherchons à simuler un lien de sortie d'un commutateur de paquets. L'arrivée des paquets est supposée suivre une loi exponentielle de paramètre . Nous positionnons une file en sortie du commutateur pour stocker les différents paquets. Les paquets ont une longueur exponentiellement distribuée de paramètre 1 / \nu = 10 000 bits. Le lien de sortie a un débit = 10 Mbit/s.
 
         \paragraph{}
-        Calculer analytiquement le temps moyen de service 1 / u .
+        Calculer analytiquement le temps moyen de service 1 / \mu .
+\[  \text{Temps moyen de service} = \frac{1}{\mu} \]
+\[  = \frac{1}{\nu} * \frac{1}{D} = 10^4 * \frac{1}{10^7} \]
+\[  = \frac{1}{10^3} = 10^-3 \text{seconde} \]
 
         \paragraph{}
         Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée (prendre par exemple comme charge de trafic 0.1, 0.5, 0.9) pour différentes durées de simulation.
+\[  \text{Charge de trafic} = \rho = \frac{\lambda}{\mu} \]
+\[  \lambda = \rho * \mu \]
+\[  \text{Nombre moyen de client} = \bar{N} = \frac{\rho}{(1 - \rho)} \]
+\[  \text{Temps moyen de reponse} = \bar{W} = \frac{1}{(\mu - \lambda)} \]
+\[  \bar{N} = \lambda * \bar{W} \]
+
+\begin{tabular}{lccc}
+    \rho & 0.1 & 0.5 & 0.9 \\
+    \lambda & 10^2 & 5*10^2 & 9*10^2 \\
+    \text{Nombre moyen de client} & 0.11111 & 1 & 9 \\
+    \text{Temps moyen de reponse} & 0.00111 & 0.002 & 0.01 \\
+\end{tabular}
 
         \paragraph{}
         Comparer le résultat de la mesure avec le résultat théorique.
