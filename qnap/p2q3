@@ -9,6 +9,10 @@ REAL sommeT;
 CUSTOMER INTEGER nbpsg;
 CUSTOMER REAL Tdebut;
 
+FILE cbSRC;
+FILE cbQ;
+FILE cbDST;
+
 /STATION/
 NAME = SRC;
 TYPE = SOURCE;
@@ -16,6 +20,10 @@ SERVICE = BEGIN
 	nbpsg := 0;
 	EXP(1./LAMBDA);
 	Tdebut := TIME;
+	WRITELN(cbSRC,TIME," ",CUSTNB(SRC));
+	WRITELN(cbSRC,TIME," ",CUSTNB(SRC)-1);
+	WRITELN(cbDST,TIME," ",CUSTNB(Q));
+	WRITELN(cbDST,TIME," ",CUSTNB(Q)+1);
 END;
 TRANSIT = Q;
 
@@ -24,6 +32,10 @@ NAME = Q;
 SERVICE = BEGIN
 	EXP(1./MU);
 	nbpsg := nbpsg + 1;
+	WRITELN(cbQ,TIME," ",CUSTNB(Q));
+	WRITELN(cbQ,TIME," ",CUSTNB(Q)-1);
+	WRITELN(cbDST,TIME," ",CUSTNB(fakeOUT));
+	WRITELN(cbDST,TIME," ",CUSTNB(fakeOUT)+1);
 END;
 TRANSIT = fakeOUT;
 
@@ -42,14 +54,21 @@ TMAX = 1000;
 /EXEC/
 BEGIN
 & On fait varier RO pour qu'il prenne 3 valeurs définies et qu'on realise nos mesures (0.1 / 0.4 / 0.9)
-FOR I := 1 STEP 4 UNTIL 9 DO
+&FOR I := 1 STEP 4 UNTIL 9 DO
 BEGIN
+	I:= 1
 	RO := I*0.10;
 	LAMBDA := RO * MU;
 	WRITELN("RO = ", RO);
 	WRITELN("LAMBDA = ", LAMBDA);
 	somnbpsg := 0;
 	sommeT := 0;
+	FILASSIGN(cbSRC,"courbeSource0.1.data");
+	FILASSIGN(cbDST,"courbeDestination0.1.data");
+	FILASSIGN(cbQ,"courbeQ0.1.data");
+	OPEN(cbSRC);
+	OPEN(cbDST);
+	OPEN(cbQ);
 	SIMUL;
 	WRITELN("moy nb passage :    e = ",somnbpsg/SERVNB(fakeOUT));
 	WRITELN("moy temp reponse :  R = ",sommeT/SERVNB(fakeOUT));
