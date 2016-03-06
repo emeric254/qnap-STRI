@@ -1,4 +1,5 @@
 
+&
 /DECLARE/
 
 QUEUE SRC, Q;
@@ -11,13 +12,13 @@ QUEUE fakeOUT;
 
 REAL temps;
 
-REAL minAtt;
-REAL maxAtt;
-REAL sommeAtt;
+REAL minA;
+REAL maxA;
+REAL sumA;
 
 REAL minT;
 REAL maxT;
-REAL sommeT;
+REAL sumT;
 
 CUSTOMER INTEGER nbpsg;
 CUSTOMER REAL Tdebut;
@@ -25,6 +26,7 @@ CUSTOMER REAL Tdebut;
 FILE cbQ;
 
 
+&
 /STATION/
 
 NAME = SRC;
@@ -36,6 +38,7 @@ END;
 TRANSIT = Q;
 
 
+&
 /STATION/
 
 NAME = Q;
@@ -45,13 +48,14 @@ END;
 TRANSIT = fakeOUT;
 
 
+&
 /STATION/
 
 NAME = fakeOUT;
 SERVICE = BEGIN
     temps := (TIME - Tdebut);
 
-    sommeT := sommeT + temps;
+    sumT := sumT + temps;
 
     IF minT > temps THEN
     BEGIN
@@ -63,49 +67,55 @@ SERVICE = BEGIN
         maxT := temps;
     END;
 
-    sommeAtt := CUSTNB(Q);
+    sumA := CUSTNB(Q);
 
-    IF minAtt > CUSTNB(Q) THEN
+    IF minA > CUSTNB(Q) THEN
     BEGIN
-        minAtt := CUSTNB(Q);
+        minA := CUSTNB(Q);
     END;
 
-    IF maxAtt < CUSTNB(Q) THEN
+    IF maxA < CUSTNB(Q) THEN
     BEGIN
-        maxAtt := CUSTNB(Q);
+        maxA := CUSTNB(Q);
     END;
 END;
 TRANSIT = OUT;
 
 
+&
 /CONTROL/
 
 TMAX = 1000;
 
 
+&
 /EXEC/
 
 BEGIN
     & On fait varier Rho pour qu'il prenne 99 valeurs définies et qu'on réalise nos mesures (0.01 , ... , 0.99)
     FILASSIGN(cbQ,"p2.q3.data");
     OPEN(cbQ);
+    & boucle des simulations
     FOR I := 1 STEP 1 UNTIL 99 DO
     BEGIN
+        & initialisation des variables
         RO := I * 0.010;
         LAMBDA := RO * MU;
-
-        minAtt := 10000000;
-        maxAtt := 0;
-        sommeAtt := 0;
-
+        minA := 10000000;
+        maxA := 0;
+        sumA := 0;
         minT := 10000000;
         maxT := 0;
-        sommeT := 0;
-
+        sumT := 0;
+        & simulation
         SIMUL;
-	WRITELN(I);
-        WRITELN(cbQ,I," ",minT," ",maxT," ",sommeT/SERVNB(fakeOUT)," ",minAtt," ",maxAtt," ",sommeAtt/SERVNB(fakeOUT));
+        & affichage de la progression
+        WRITELN(I);
+        & ecriture resultats dans le fichier
+        WRITELN(cbQ,I," ",minT," ",maxT," ",sumT/SERVNB(fakeOUT)," ",minA," ",maxA," ",sumA/SERVNB(fakeOUT));
     END;
 END;
 
+
+&
 /END/
