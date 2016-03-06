@@ -43,16 +43,15 @@ TMAX = 1000;
 /EXEC/
 BEGIN
 & On fait varier RO pour qu'il prenne 9 valeurs définies et qu'on realise nos mesures (0.1 , ... , 0.9)
-&FOR I := 1 STEP 1 UNTIL 9 DO
+FILASSIGN(cbQ,"courbeQ0.1.data");
+OPEN(cbQ);
+FOR I := 1 STEP 1 UNTIL 9 DO
 BEGIN
-    I:= 1;
     RO := I*0.10;
     LAMBDA := RO * MU;
     WRITELN("RO = ", RO);
     WRITELN("LAMBDA = ", LAMBDA);
     sommeT := 0;
-    FILASSIGN(cbQ,"courbeQ0.1.data");
-    OPEN(cbQ);
     SIMUL;
     WRITELN("moy temp reponse :  R = ",sommeT/SERVNB(fakeOUT));
     END;
