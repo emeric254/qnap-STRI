@@ -1,35 +1,41 @@
-
+%
 \chapter{RTC : Réseau Téléphonique Commuté}
-
+%
     \section{Analyse sur un lien}
-
-        \paragraph{}
-        Considérons un lien d'un réseau à commutation de circuits permettant de véhiculer de la voix téléphonique. Chacune des connexions nécessite un débit de 64 Kb/s bidirectionnels. On peut multiplexer simultanément C appels téléphoniques sur ce lien.
-        
+%
+        \subsection{Énoncé}
+%
+            \paragraph{}
+Considérons un lien d'un réseau à commutation de circuits permettant de véhiculer de la voix téléphonique.
+%
+            \paragraph{}
+Chacune des connexions nécessite un débit de 64 Kb/s bidirectionnels.
+On peut multiplexer simultanément C appels téléphoniques sur ce lien.
+%
         \paragraph{}
         Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées des nouveaux appels suivent une loi de paramètre, les durées des appels sont supposées suivre une loi exponentielle de paramètre , (1\u = 3 min).
-        
+
         \paragraph{}
         Déterminer à l'aide d'une simulation la probabilité de blocage d'appel pour une charge comprise entre 10 et 70 Erlangs.
-        
+
         \paragraph{}
         Faire varier la capacité C de telle sorte que la charge normalisée soit entre 0.5 et 1.
 
         \paragraph{}
         Réaliser une étude préliminaire et théorique sur la probabilité de blocage en fonction de la charge et la capacité.
-        
+
         \paragraph{}
         Comparer le taux de blocage expérimental au taux théorique.
-
-
+%
     \clearpage
-
-
+%
+%
+%
     \section{Analyse sur un réseau de trois commutateurs}
-
+%
         \paragraph{}
         Désormais, nous considérons le réseau composé des 3 nœuds suivant :
-        
+
         \paragraph{}
         Les arrivées sont supposées Poissoniennes sur chacun des nœuds et le trafic se répartit équiprobablement entre les différents nœuds. Les durées des appels sont supposées exponentielles de même paramètre que dans la première partie (1-a). Nous ne considérons pas les appels locaux ni les appels qui n'aboutissent pas (absence).
 
@@ -38,5 +44,6 @@
 
         \paragraph{}
         Le mécanisme précédent pose des problèmes à très forte charge (charge normalisée !). Une solution consiste à n'utiliser le chemin de débordement que lorsque celui-ci n'est pas très encombré (en dessous d'un certain seuil d'occupation sur chacun des liens). Cela revient donc à laisser une marge M aux appels directs. Commenter ce choix. Faire une simulation en prenant une marge comprise entre 1 et 3 par exemple.
-
+%
     \clearpage
+%
