@@ -1,0 +1,59 @@
+/DECLARE/
+QUEUE SRC, Q;
+REAL LAMBDA, RO;
+REAL MU = 1000;
+INTEGER I;
+QUEUE fakeOUT;
+REAL somnbpsg;
+REAL sommeT;
+CUSTOMER INTEGER nbpsg;
+CUSTOMER REAL Tdebut;
+
+/STATION/
+NAME = SRC;
+TYPE = SOURCE;
+SERVICE = BEGIN
+	nbpsg := 0;
+	EXP(1./LAMBDA);
+	Tdebut := TIME;
+END;
+TRANSIT = Q;
+
+/STATION/
+NAME = Q;
+SERVICE = BEGIN
+	EXP(1./MU);
+	nbpsg := nbpsg + 1;
+END;
+TRANSIT = fakeOUT;
+
+
+/STATION/
+NAME = fakeOUT;
+SERVICE = BEGIN
+	sommeT := sommeT + (TIME - Tdebut);
+	somnbpsg := somnbpsg + nbpsg;
+END;
+TRANSIT = OUT;
+
+/CONTROL/
+TMAX = 1000;
+
+/EXEC/
+BEGIN
+& On fait varier RO pour qu'il prenne 3 valeurs définies et qu'on realise nos mesures (0.1 / 0.4 / 0.9)
+FOR I := 1 STEP 4 UNTIL 9 DO
+BEGIN
+	RO := I*0.10;
+	LAMBDA := RO * MU;
+	WRITELN("RO = ", RO);
+	WRITELN("LAMBDA = ", LAMBDA);
+	somnbpsg := 0;
+	sommeT := 0;
+	SIMUL;
+	WRITELN("moy nb passage :    e = ",somnbpsg/SERVNB(fakeOUT));
+	WRITELN("moy temp reponse :  R = ",sommeT/SERVNB(fakeOUT));
+	END;
+END;
+
+/END/
