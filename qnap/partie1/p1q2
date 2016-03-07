@@ -8,8 +8,8 @@
 &
 /DECLARE/
     QUEUE SRC, LIEN;
-    INTEGER NbRejets, Erlang, I, J, C, RHO, NbSimu;
-    REAL SOMME, DEBIT, LAMBDA, MU, REJET, X;
+    INTEGER NbRejets, Erlang, I, C, RHO, NbSimu;
+    REAL NbOK, DEBIT, LAMBDA, MU, REJET, X;
     FILE cbQ;
 
 &
@@ -23,7 +23,10 @@
 /STATION/
     NAME = LIEN;
     TYPE = MULTIPLE(C);
-    SERVICE = EXP(1./(MU));
+    SERVICE = BEGIN
+        EXP(1./(MU));
+        NbOK := NbOK +1;
+    END;
     CAPACITY = C;
     REJECT = BEGIN
         NbRejets := NbRejets + 1;
@@ -34,34 +37,38 @@
 &
 /EXEC/
     BEGIN
-        DEBIT := 64000;
-        MU := 1. / 180;
-        Erlang := 70;
-        NbSimu := 10;
         FILASSIGN(cbQ , "p1.q2.data");
         OPEN(cbQ);
         &
-        FOR RHO := 10 STEP 2 UNTIL Erlang DO
+        DEBIT := 64000;
+        MU := 1. / 180;
+        Erlang := 70;
+        NbSimu := 5;
+        &
+        FOR RHO := 10 STEP 5 UNTIL Erlang DO
         BEGIN
-            LAMBDA := MU * RHO;
-            C := RHO;
-            &
-            FOR I := 1 STEP 1 UNTIL NbSimu DO
-            BEGIN
-                X := 1;
-                SOMME := 1;
-                NbRejets := 0;
-                FOR J := 1 STEP 1 UNTIL C DO
-                BEGIN
-                    X := ( X * RHO / J );
-                    SOMME := SOMME + X;
-                END;
-                REJET := ( X * 1. / SOMME );
-                SIMUL;
-            END;
             &
             WRITELN("RHO :" , RHO);
-            WRITELN(cbQ , " " , RHO , " " , REJET);
+            &
+            LAMBDA := MU * RHO;
+            &
+            FOR C := RHO STEP 5 UNTIL (RHO * 2) DO
+            BEGIN
+                &
+                NbOK := 0;
+                NbRejets := 0;
+                &
+                FOR I := 1 STEP 1 UNTIL NbSimu DO
+                BEGIN
+                    SIMUL;
+                END;
+                &
+                NbOK := NbOK / NbSimu;
+                NbRejets := NbRejets / NbSimu;
+                &
+                WRITELN(cbQ , " " , RHO , " " , C , " " , NbRejets , " " , NbOK , " " , NbRejets / (NbOK + NbRejets));
+            END;
+            &
         END;
     END;
 
