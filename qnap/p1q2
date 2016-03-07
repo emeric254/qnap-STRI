@@ -66,3 +66,7 @@
 
 &
 /END/
+
+&
+& plot "p1.q2.data" u 1:2 w l t "taux de rejet"
+&
