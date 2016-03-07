@@ -23,20 +23,20 @@ Le lien de sortie a un débit de 10 Mbit/s.
 %
         \subsection{Calculer analytiquement le temps moyen de service $\frac{1}{\mu}$}
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
         \subsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
-\[  \lambda = \rho * \mu \]
+\[  \lambda = \rho \mu \]
 \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
 \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
 \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
-\[  \bar{N} = \lambda * \bar{W} \]
+\[  \bar{N} = \lambda \bar{W} \]
 \begin{center}
     \begin{tabular}{ | c | c| c | c | }
         \hline
             $\rho$ & 0.1 & 0.5 & 0.9 \\
         \hline
-            $\lambda$ & $10^{2}$ & $5*10^{2}$ & $9*10^{2}$ \\
+            $\lambda$ & $10^{2}$ & $5 10^{2}$ & $9 10^{2}$ \\
         \hline
             Nombre moyen de client & 0.11111 & 1 & 9 \\
         \hline
@@ -59,7 +59,7 @@ Blablabla
                 \paragraph{}
 On obtient la même chose que précédemment :
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
             \subsubsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
 %
