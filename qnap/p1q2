@@ -2,13 +2,13 @@
     OPTION = NSOURCE;
     ACCURACY = ALL QUEUE;
     TMAX = 100000;
-    FILE cbQ;
 
 &
 /DECLARE/
     QUEUE SRC, LIEN;
     INTEGER NbPertes, NbRejets, Erlang, I, J, C, RHO, NbSimu;
     REAL SOMME, DEBIT, LAMBDA, MU, REJET, X;
+    FILE cbQ;
 
 &
 /STATION/
@@ -37,6 +37,7 @@
         Erlang := 70;
         NbSimu := 10;
         FILASSIGN(cbQ, "p1.q2.data");
+    	OPEN(cbQ);
         &
         FOR RHO := 10 STEP 10 UNTIL Erlang DO
         BEGIN
