@@ -1,4 +1,5 @@
 
+&
 /CONTROL/
     OPTION = NSOURCE;
     ACCURACY = ALL QUEUE;

@@ -64,14 +64,14 @@
 /EXEC/
     BEGIN
         MU := 1. / 180;
-        Erlang := 50;
+        Erlang := 70;
         NbSimu := 10;
         &
-        FOR RHO := 10 STEP 10 UNTIL Erlang DO
+        FOR RHO := 10 STEP 2 UNTIL Erlang DO
         BEGIN
             LAM := MU * RHO;
             &
-            FOR C := RHO STEP ( RHO / 2 ) UNTIL 2 * RHO DO
+            FOR C := RHO STEP ( RHO / 2 ) UNTIL ( 2 * RHO ) DO
             BEGIN
             RhoNorm := RHO / C;
             &
@@ -80,7 +80,7 @@
                 X := 1;
                 SOMME := 1;
                 NbRejets := 0;
-
+                &
                 FOR J := 1 STEP 1 UNTIL C DO
                 BEGIN
                     X := X * RHO / J;
