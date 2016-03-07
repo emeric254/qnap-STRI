@@ -25,18 +25,19 @@
                 TRANSIT(LIEN1);
             END
         ELSE
-        IF ( ( CUSTNB(LIEN2) < C ) AND ( CUSTNB(LIEN3) < C ) ) THEN
-            BEGIN
-                Duree := ( 1. / MU );
-                CUST := NEW(CUSTOMER);
-                CUST.DUREE := Duree;
-                TRANSIT(CUST , LIEN2);
-                TRANSIT(LIEN3);
-            END
-        ELSE
-            BEGIN
-                NbPertes := NbPertes + 1;
-            END;
+            IF ( ( CUSTNB(LIEN2) < C ) AND ( CUSTNB(LIEN3) < C ) ) THEN
+                BEGIN
+                    Duree := ( 1. / MU );
+                    CUST := NEW(CUSTOMER);
+                    CUST.DUREE := Duree;
+                    TRANSIT(CUST , LIEN2);
+                    TRANSIT(LIEN3);
+                END
+            ELSE
+                BEGIN
+                    NbPertes := NbPertes + 1;
+                    TRANSIT(OUT);
+                END;
     END;
 
 &
