@@ -1,3 +1,5 @@
+
+&
 /CONTROL/
     OPTION = NSOURCE;
     ACCURACY = ALL QUEUE;
@@ -15,7 +17,6 @@
 /STATION/
     NAME = SRC;
     TYPE = SOURCE;
-    TRANSIT(OUT)
     SERVICE = BEGIN
         EXP( 1. / LAM);
         IF ( CUSTNB(LIEN1) < C ) THEN
