@@ -12,6 +12,7 @@
     REAL SOMME, LAMBDA, MU, REJET, X, RhoNorm, RHO, LAM;
     CUSTOMER REAL DUREE;
     REF CUSTOMER CUST;
+    FILE cbQ;
 
 &
 /STATION/
@@ -68,6 +69,9 @@
         Erlang := 70;
         NbSimu := 10;
         &
+        FILASSIGN(cbQ , "p1.q3.data");
+        OPEN(cbQ);
+        &
         FOR RHO := 10 STEP 2 UNTIL Erlang DO
         BEGIN
             LAM := MU * RHO;
@@ -91,10 +95,7 @@
                 SIMUL;
             END;
             &
-            WRITELN("Rejets :" , REJET);
-            WRITELN("Charge normalisée :" , RhoNorm);
-            WRITELN("Erlang :" , RHO);
-            WRITELN("Capacite :" , C);
+            WRITELN(cbQ,I," ",minT," ",maxT," ",sumT/SERVNB(fakeOUT)," ",minA," ",maxA," ",sumA/SERVNB(fakeOUT));
             &
             END;
         END;
