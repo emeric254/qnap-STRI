@@ -1,17 +1,29 @@
-
+%
 \chapter{Commutation de paquets}
+%
     \section{Un commutateur de paquets}
+%
         \subsection{Énoncé}
+%
             \paragraph{}
 Nous cherchons à simuler un lien de sortie d'un commutateur de paquets.
+            %    \begin{figure}
+            %        \begin{center}
+                        %\includegraphics[scale=0.5]{RSC/2.1.png}
+            %        \end{center}
+            %            \caption{ Schéma de fonctionnement d'un commutateur de paquets }
+            %            \label{ Schéma de fonctionnement d'un commutateur de paquets }
+            %    \end{figure}
+%
+            \paragraph{}
 L'arrivée des paquets est supposée suivre une loi exponentielle de paramètre $\lambda$.
 Nous positionnons une file en sortie du commutateur pour stocker les différents paquets.
 Les paquets ont une longueur exponentielle-ment distribuée de paramètre $\frac{1}{\nu} = 10 000 bits$.
 Le lien de sortie a un débit de 10 Mbit/s.
 %
-        \subsection{Calculer analytiquement le temps moyen de service $\frac{1}{\mu}$}
+        \subsection{Calcul analytique du temps moyen de service $\frac{1}{\mu}$}
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
         \subsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
 \[  \lambda = \rho * \mu \]
@@ -19,31 +31,55 @@ Le lien de sortie a un débit de 10 Mbit/s.
 \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
 \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
 \[  \bar{N} = \lambda * \bar{W} \]
-\begin{tabular}{ | c | c| c | c | }
-\hline
-    $\rho$ & 0.1 & 0.5 & 0.9 \\
-\hline
-    $\lambda$ & $10^{2}$ & $5*10^{2}$ & $9*10^{2}$ \\
-\hline
-    Nombre moyen de client & 0.11111 & 1 & 9 \\
-\hline
-    Temps moyen de réponse & 0.00111 & 0.002 & 0.01 \\
-\hline
-\end{tabular}
+\begin{center}
+    \begin{tabular}{ | c | c| c | c | }
+        \hline
+            $\rho$ & 0.1 & 0.5 & 0.9 \\
+        \hline
+            $\lambda$ & $10^{2}$ & $5*10^{2}$ & $9*10^{2}$ \\
+        \hline
+            Nombre moyen de client & 0.11111 & 1 & 9 \\
+        \hline
+            Temps moyen de réponse & 0.00111 & 0.002 & 0.01 \\
+        \hline
+    \end{tabular}
+\end{center}
 %
-        \subsection{Comparer le résultat de la mesure avec le résultat théorique}
+        \subsection{Comparaison du résultat de la simulation avec la théorie}
             \paragraph{}
-ICI COURBES ...
+Blablabla 1
+    % TODO >>>
+    % SIMULATION
+    % ici graphique
+    % TODO <<<
 %
-        \subsection{Reprendre les deux questions dans le cas où les paquets ont une longueur constante (10000 bits)}
+        \subsection{Cas où les paquets ont une longueur constante (10000 bits)}
+%
             \subsubsection{Calculer analytiquement le temps moyen de service $\frac{1}{\mu}$}
+%
                 \paragraph{}
-blablabla
-            \subsubsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
+On obtient la même chose que précédemment :
+\[  \text{Temps moyen de service} = \frac{1}{\mu} \]
+\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+%
+            \subsubsection{Résultats en fonction du taux d'arrivée pour différentes durées de simulation}
+%
+% voir pour trouver des formules, la progression doit être linéaire en fonction de $\rho$.
+%
+                \paragraph{Temps moyen de réponse}
+Blablabla 3
+%
+                \paragraph{Nombre moyen de paquets dans la file d'attente}
+Blablabla 4
+%
+            \subsubsection{Analyse et comparaison des résultats}
+%
                 \paragraph{}
-blablabla
-            \subsubsection{Analyse et conclusion}
-                \paragraph{}
-C'est pareil ?
+Blablabla 5
+    % TODO >>>
+    % SIMULATION
+    % ici graphique
+    % TODO <<<
 %
     \clearpage
+%
