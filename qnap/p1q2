@@ -34,7 +34,7 @@
     BEGIN
         DEBIT := 64000;
         MU := 1. / 180;
-        Erlang := 50;
+        Erlang := 70;
         NbSimu := 10;
         FILASSIGN(cbQ, "p1.q2.data");
         &
@@ -59,6 +59,7 @@
             &
             WRITELN("Rejets :" , REJET);
             WRITELN("Erlang :" , RHO);
+            WRITELN(cbQ," ",RHO," ",REJET);
         END;
     END;
 
