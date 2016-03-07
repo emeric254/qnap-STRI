@@ -48,8 +48,6 @@
         FOR RHO := 10 STEP 5 UNTIL Erlang DO
         BEGIN
             &
-            WRITELN("RHO :" , RHO);
-            &
             LAMBDA := MU * RHO;
             &
             FOR C := RHO STEP 5 UNTIL (RHO * 2) DO
