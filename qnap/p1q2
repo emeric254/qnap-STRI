@@ -1,70 +1,66 @@
 /CONTROL/
-	OPTION = NSOURCE;
-	TMAX = 100000;
-	ACCURACY = ALL QUEUE;
+    OPTION = NSOURCE;
+    ACCURACY = ALL QUEUE;
+    TMAX = 100000;
+    FILE cbQ;
 
-
+&
 /DECLARE/
-	QUEUE SRC,LIEN;
-	INTEGER NbPertes,NbRejets,Erlang,I,J,C,RHO,NbSimu;
-	REAL SOMME,DEBIT,LAMBDA,MU,REJET,X;
+    QUEUE SRC, LIEN;
+    INTEGER NbPertes, NbRejets, Erlang, I, J, C, RHO, NbSimu;
+    REAL SOMME, DEBIT, LAMBDA, MU, REJET, X;
 
+&
 /STATION/
-	NAME = SRC;
-	TYPE = SOURCE;
-	SERVICE = EXP(1./LAMBDA);
-	TRANSIT = LIEN;
+    NAME = SRC;
+    TYPE = SOURCE;
+    SERVICE = EXP(1./LAMBDA);
+    TRANSIT = LIEN;
 
+&
 /STATION/
-	NAME = LIEN;
-	TYPE = MULTIPLE(C);
-	SERVICE = EXP(1./(MU));
-	CAPACITY = C;
-	REJECT = 
-		BEGIN
-			NbPertes:= NbPertes+1;
-			TRANSIT(OUT);
-		END;
-	TRANSIT=OUT;
+    NAME = LIEN;
+    TYPE = MULTIPLE(C);
+    SERVICE = EXP(1./(MU));
+    CAPACITY = C;
+    REJECT = BEGIN
+        NbPertes:= NbPertes+1;
+        TRANSIT(OUT);
+    END;
+    TRANSIT=OUT;
 
-/EXEC/ 
-	BEGIN
-		DEBIT:=64000;
-		MU:= 1./180;
-		Erlang:= 50;
-		NbSimu:=10;
+&
+/EXEC/
+    BEGIN
+        DEBIT := 64000;
+        MU := 1. / 180;
+        Erlang := 50;
+        NbSimu := 10;
+        FILASSIGN(cbQ, "p1.q2.data");
+        &
+        FOR RHO := 10 STEP 10 UNTIL Erlang DO
+        BEGIN
+            LAMBDA := MU * RHO;
+            C := RHO;
+            &
+            FOR I := 1 STEP 1 UNTIL NbSimu DO
+            BEGIN
+                X := 1;
+                SOMME := 1;
+                NbRejets := 0;
+                FOR J := 1 STEP 1 UNTIL C DO
+                BEGIN
+                    X := ( X * RHO / J );
+                    SOMME := SOMME + X;
+                END;
+                REJET := ( X * 1. / SOMME );
+                SIMUL;
+            END;
+            &
+            WRITELN("Rejets :" , REJET);
+            WRITELN("Erlang :" , RHO);
+        END;
+    END;
 
-		FOR RHO:=10 STEP 10 UNTIL Erlang DO
-			BEGIN 
-			LAMBDA:=MU*RHO;
-			C:=RHO;
-
-			FOR I:=1 STEP 1 UNTIL NbSimu DO
-				BEGIN
-					X:=1;
-					SOMME:= 1;
-					NbRejets:= 0;
-					
-					FOR J:= 1 STEP 1 UNTIL C DO
-						BEGIN
-							X:= (X*RHO/J);
-							SOMME:=SOMME+X;
-						
-						END;
-					REJET:= (X*1./SOMME);
-					SIMUL;
-					END;
-				WRITELN("Rejets :", REJET);
-				WRITELN("Erlang :",RHO);
-			END;
-		END;
-				
-			
+&
 /END/
-		
-
-
-
-
-
-
