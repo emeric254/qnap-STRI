@@ -24,10 +24,10 @@
     SERVICE = EXP(1./(MU));
     CAPACITY = C;
     REJECT = BEGIN
-        NbPertes:= NbPertes+1;
+        NbPertes := NbPertes + 1;
         TRANSIT(OUT);
     END;
-    TRANSIT=OUT;
+    TRANSIT = OUT;
 
 &
 /EXEC/
@@ -36,8 +36,8 @@
         MU := 1. / 180;
         Erlang := 70;
         NbSimu := 10;
-        FILASSIGN(cbQ, "p1.q2.data");
-    	OPEN(cbQ);
+        FILASSIGN(cbQ , "p1.q2.data");
+        OPEN(cbQ);
         &
         FOR RHO := 10 STEP 10 UNTIL Erlang DO
         BEGIN
@@ -60,7 +60,7 @@
             &
             WRITELN("Rejets :" , REJET);
             WRITELN("Erlang :" , RHO);
-            WRITELN(cbQ," ",RHO," ",REJET);
+            WRITELN(cbQ , " " , RHO , " " , REJET);
         END;
     END;
 
