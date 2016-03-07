@@ -21,26 +21,33 @@ Chacune des connexions nécessite un débit de 64 Kb/s bi-directionnels.
 On peut multiplexer simultanément $C$ appels téléphoniques sur ce lien.
 %
         \paragraph{}
-        Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées des nouveaux appels suivent une loi de paramètre, les durées des appels sont supposées suivre une loi exponentielle de paramètre , (1\u = 3 min).
+Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées des nouveaux appels suivent une loi de paramètre, les durées des appels sont supposées suivre une loi exponentielle de paramètre , (1\u = 3 min).
 %
-        \subsection{Déterminer à l'aide d'une simulation la probabilité de blocage d'appel pour une charge comprise entre 10 et 70 Erlangs}
-Blablabla
-%
-        \subsection{Faire varier la capacité C de telle sorte que la charge normalisée soit entre 0.5 et 1}
-Blablabla
-%
-        \subsection{Réaliser une étude préliminaire et théorique sur la probabilité de blocage en fonction de la charge et la capacité}
-Blablabla
-\[ P(\text{blocage}) = \frac{ \frac{ \rho^k }{ k! } }{ \sum\limits_{i=0}^k \frac{ \rho^i }{ i! } } \]
+        \subsection{Probabilité de blocage d'appel en fonction de la charge $\rho$ et de la capacité $C$}
+\[ P(\text{blocage}) = \frac{ \frac{ \rho^C }{ C! } }{ \sum\limits_{i=0}^C \frac{ \rho^i }{ i! } } \]
 \begin{center}
-    avec $\rho$ la charge en Erlang et $k$ la capacité.
+    avec $\rho$ la charge en Erlang et $C$ la capacité.
 \end{center}
     % TODO >>>
     % ici graphique calcul theorique avec k et rho qui changent
     % TODO <<<
 %
-        \subsection{Comparer le taux de blocage expérimental au taux théorique}
-Blablabla
+        \subsection{Simulation de la probabilité de blocage d'appel pour une charge comprise entre 10 et 70 Erlangs}
+Blablabla 1
+    % TODO >>>
+    % SIMULATION
+    % ici graphique
+    % TODO <<<
+%
+        \subsection{Variation de la capacité C pour une variation de la charge normalisée entre 0.5 et 1}
+    % TODO >>>
+    % SIMULATION
+    % ici graphique
+    % TODO <<<
+Blablabla 2
+%
+        \subsection{Comparaison des taux de blocage expérimental et théorique}
+Blablabla 3
 %
     \clearpage
 %
@@ -65,12 +72,12 @@ Les arrivées sont supposées Poissonniennes sur chacun des nœuds et le trafic 
 Les durées des appels sont supposées exponentielles de même paramètre que dans la première partie (1-a).
 Nous ne considérons pas les appels locaux ni les appels qui n'aboutissent pas (absence).
 %
-        \subsection{Déterminer les probabilités de blocage dans le cas où l'on autorise le chemin de débordement en cas de saturation du chemin direct}
-Blablabla
+        \subsection{Probabilités de blocage avec le chemin de débordement en cas de saturation du chemin direct}
+Blablabla 4
 %
-        \subsection{Comparer avec les résultats de la partie \ref{seullien}}
+        \subsection{Comparaison des résultats avec la partie \ref{seullien}}
         % (on choisira donc des charges de trafic et des capacités de liens équivalentes)
-Blablabla
+Blablabla 5
     % TODO >>>
     % ici graphique simulation ou juste calculs ??
     % TODO <<<
@@ -80,11 +87,11 @@ Blablabla
 Une solution consiste à n'utiliser le chemin de débordement que lorsque celui-ci n'est pas très encombré (en dessous d'un certain seuil d'occupation sur chacun des liens).
 Cela revient donc à laisser une marge M aux appels directs.
 %
-            \subsubsection{Commenter ce choix}
-Blablabla
+            \subsubsection{Commentaires}
+Blablabla 6
 %
-            \subsubsection{Simulation en prenant une marge comprise entre 1 et 3 par exemple}
-Blablabla
+            \subsubsection{Simulation en prenant une marge comprise entre 1 et 3}
+Blablabla 7
     % TODO >>>
     % ici graphique simulation
     % TODO <<<
