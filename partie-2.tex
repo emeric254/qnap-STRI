@@ -7,14 +7,12 @@
 %
             \paragraph{}
 Nous cherchons à simuler un lien de sortie d'un commutateur de paquets.
-            %    \begin{figure} % on s'en fout de l'image moche, c'est juste pour test xD
+            %    \begin{figure}
             %        \begin{center}
-                        %\includegraphics{network.png}
-                        %\includegraphics[height=128, width=128]{network.png}
-                        %\includegraphics[scale=0.5]{network.png}
+                        %\includegraphics[scale=0.5]{RSC/2.1.png}
             %        \end{center}
-            %            \caption{ Laule } % ce qui apparait juste en dessous de l'image
-            %            \label{c'est styler !}
+            %            \caption{ Schéma de fonctionnement d'un commutateur de paquets }
+            %            \label{ Schéma de fonctionnement d'un commutateur de paquets }
             %    \end{figure}
 %
             \paragraph{}
@@ -25,38 +23,34 @@ Le lien de sortie a un débit de 10 Mbit/s.
 %
         \subsection{Calculer analytiquement le temps moyen de service $\frac{1}{\mu}$}
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
         \subsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
-\[  \lambda = \rho * \mu \]
+\[  \lambda = \rho \mu \]
 \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
 \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
 \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
-\[  \bar{N} = \lambda * \bar{W} \]
-\begin{tabular}{ | c | c| c | c | }
-\hline
-    $\rho$ & 0.1 & 0.5 & 0.9 \\
-\hline
-    $\lambda$ & $10^{2}$ & $5*10^{2}$ & $9*10^{2}$ \\
-\hline
-    Nombre moyen de client & 0.11111 & 1 & 9 \\
-\hline
-    Temps moyen de réponse & 0.00111 & 0.002 & 0.01 \\
-\hline
-\end{tabular}
+\[  \bar{N} = \lambda \bar{W} \]
+\begin{center}
+    \begin{tabular}{ | c | c| c | c | }
+        \hline
+            $\rho$ & 0.1 & 0.5 & 0.9 \\
+        \hline
+            $\lambda$ & $10^{2}$ & $5 10^{2}$ & $9 10^{2}$ \\
+        \hline
+            Nombre moyen de client & 0.11111 & 1 & 9 \\
+        \hline
+            Temps moyen de réponse & 0.00111 & 0.002 & 0.01 \\
+        \hline
+    \end{tabular}
+\end{center}
 %
         \subsection{Comparer le résultat de la mesure avec le résultat théorique}
             \paragraph{}
-ICI COURBES ...
-            %    \begin{figure} % on s'en fout de l'image moche, c'est juste pour test xD
-            %        \begin{center}
-                        %\includegraphics{network.png}
-                        %\includegraphics[height=128, width=128]{network.png}
-                        %\includegraphics[scale=0.5]{network.png}
-            %        \end{center}
-            %            \caption{ Laule } % ce qui apparait juste en dessous de l'image
-            %            \label{c'est styler !}
-            %    \end{figure}
+Blablabla
+    % TODO >>>
+    % ici graphique simulation
+    % TODO <<<
 %
         \subsection{Reprendre les deux questions dans le cas où les paquets ont une longueur constante (10000 bits)}
 %
@@ -65,17 +59,21 @@ ICI COURBES ...
                 \paragraph{}
 On obtient la même chose que précédemment :
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
             \subsubsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
 %
                 \paragraph{}
+Blablabla
 voir pour trouver des formules, la progression doit être linéaire en fonction de $\rho$.
 %
             \subsubsection{Analyse et conclusion}
 %
                 \paragraph{}
-blablabla a voir ...
+Blablabla
+    % TODO >>>
+    % ici graphique simulation
+    % TODO <<<
 %
     \clearpage
 %
