@@ -8,7 +8,7 @@
 &
 /DECLARE/
     QUEUE SRC, LIEN;
-    INTEGER NbPertes, NbRejets, Erlang, I, J, C, RHO, NbSimu;
+    INTEGER NbRejets, Erlang, I, J, C, RHO, NbSimu;
     REAL SOMME, DEBIT, LAMBDA, MU, REJET, X;
     FILE cbQ;
 
@@ -26,7 +26,7 @@
     SERVICE = EXP(1./(MU));
     CAPACITY = C;
     REJECT = BEGIN
-        NbPertes := NbPertes + 1;
+        NbRejets := NbRejets + 1;
         TRANSIT(OUT);
     END;
     TRANSIT = OUT;
@@ -60,8 +60,7 @@
                 SIMUL;
             END;
             &
-            WRITELN("Rejets :" , REJET);
-            WRITELN("Erlang :" , RHO);
+            WRITELN("RHO :" , RHO);
             WRITELN(cbQ , " " , RHO , " " , REJET);
         END;
     END;
