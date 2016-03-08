@@ -8,19 +8,19 @@ REF CUSTOMER CUST;
 FILE courbe;
 
 
-& Station émettrice des appels de durée exponentielle
+& Station emettrice des appels de duree exponentielle
 /STATION/
 NAME = SRC;
 TYPE = SOURCE;
 SERVICE = BEGIN
     EXP(1./LAMBDA);
-    & Verification que le LIEN1 ne soit pas surchargé pour envoyer sur le 1er chemin
+    & Verification que le LIEN1 ne soit pas surcharge pour envoyer sur le 1er chemin
     IF (CUSTNB(LIEN1)<C) THEN
         BEGIN
             DUREE := EXP(1./MU);
             TRANSIT(LIEN1);
         END
-    & Sinon on envoit sur le chemin de débordement
+    & Sinon on envoit sur le chemin de debordement
     ELSE
         BEGIN
             DUREE := EXP(1./MU);
@@ -33,18 +33,18 @@ END;
 TRANSIT = OUT;
 
 
-& Station réceptrice simulant le premier lien (donc 1er chemin)
+& Station receptrice simulant le premier lien (donc 1er chemin)
 /STATION/
 NAME = LIEN1;
 TYPE = MULTIPLE(C);
-& Si l'appel peut être décroché, alors on compte le nombre d'appel reçu
+& Si l'appel peut etre decroche, alors on compte le nombre d'appel recu
 SERVICE =
 BEGIN
     EXP(1./MU);
     App1OK := App1OK +1;
 END;
 CAPACITY = C;
-& En cas de rejet, on compte le nombre d'appel bloqué
+& En cas de rejet, on compte le nombre d'appel bloque
 REJECT =
 BEGIN
     App1Bloc := App1Bloc + 1;
@@ -53,7 +53,7 @@ END;
 TRANSIT = OUT;
 
 
-& Station réceptrice simulant le second lien (1ère partie du 2nd chemin)
+& Station receptrice simulant le second lien (1ere partie du 2nd chemin)
 /STATION/
 NAME=LIEN2;
 TYPE= MULTIPLE(C);
@@ -63,7 +63,7 @@ BEGIN
     App2OK := App2OK +1;
 END;
 CAPACITY = C;
-& En cas de rejet, on compte le nombre d'appel bloqué
+& En cas de rejet, on compte le nombre d'appel bloque
 REJECT =
 BEGIN
     App2Bloc := App2Bloc + 1;
@@ -72,7 +72,7 @@ END;
 TRANSIT=OUT;
 
 
-& Station réceptrice simulant le second lien (2nd partie du 2nd chemin)
+& Station receptrice simulant le second lien (2nd partie du 2nd chemin)
 /STATION/
 NAME=LIEN3;
 TYPE= MULTIPLE(C);
@@ -82,7 +82,7 @@ BEGIN
         App3OK := App3OK +1;
 END;
 CAPACITY = C;
-& En cas de rejet, on compte le nombre d'appel bloqué
+& En cas de rejet, on compte le nombre d'appel bloque
 REJECT =
 BEGIN
     App3Bloc := App3Bloc + 1;
@@ -99,11 +99,11 @@ TMAX = 10000;
 BEGIN
     FILASSIGN(courbe , "Partie 1 - 3 courbes.data");
     OPEN(courbe);
-    & Variation de la charge (RHO) de 10 à 70 (ERL) par pas de 10
+    & Variation de la charge (RHO) de 10 a 70 (ERL) par pas de 10
     FOR RHO:=10 STEP 10 UNTIL ERL DO
     BEGIN
         LAMBDA := MU * RHO;
-        & Variation de la capacité (C) pour posséder une charge normalisée (RHO) comprise entre 0.5 et 1
+        & Variation de la capacite (C) pour posseder une charge normalisee (RHO) comprise entre 0.5 et 1
         FOR C := RHO STEP (RHO/2) UNTIL 2 * RHO DO
         BEGIN
             App1Bloc := 0;
