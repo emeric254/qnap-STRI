@@ -152,9 +152,7 @@ BEGIN
                         WRITE(courbe, App3Bloc/(App3OK+App3Bloc));
                 END;
 
-            WRITE(courbe, " ", TOT , " " , TOTFAIL , " " , TOTFAIL / TOT);
-
-            WRITELN(courbe, " ");
+            WRITELN(courbe, " ", TOT , " " , TOTFAIL , " " , (TOTFAIL / TOT) );
         END;
     END;
 END;
