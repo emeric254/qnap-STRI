@@ -74,9 +74,9 @@ END;
         mu := 1. / 180;
         erlang := 70;
 
-        FOR rho := 10 STEP 10 UNTIL erlang DO
+        FOR rho := 1 STEP 1 UNTIL erlang DO
         BEGIN
-            FOR capacite := rho STEP (rho/2) UNTIL 2 * rho DO
+            FOR capacite := rho STEP 1 UNTIL 2 * rho DO
                 BEGIN
                     lambda := mu * rho;
 
