@@ -1,105 +1,152 @@
 
-&
-/CONTROL/
-    OPTION = NSOURCE;
-    ACCURACY = ALL QUEUE;
-    TMAX = 100000;
-
-&
 /DECLARE/
-    QUEUE SRC, LIEN1, LIEN2, LIEN3;
-    INTEGER NbPertes, NbRejets, Erlang, I, J, C, NbSimu, Duree;
-    REAL SOMME, LAMBDA, MU, REJET, X, RhoNorm, RHO, LAM;
-    CUSTOMER REAL DUREE;
-    REF CUSTOMER CUST;
-    FILE cbQ;
+QUEUE SRC, LIEN1, LIEN2, LIEN3;
+INTEGER I, C, ERL = 70, NbSimu = 20;
+REAL RHO, LAMBDA, DUREE, App1OK, App1Bloc, App2OK, App2Bloc, App3OK, App3Bloc, MU = 1./180;
+CUSTOMER REAL DUREE;
+REF CUSTOMER CUST;
+FILE courbe;
 
-&
+
+& Station émettrice des appels de durée exponentielle
 /STATION/
-    NAME = SRC;
-    TYPE = SOURCE;
-    SERVICE = BEGIN
-        EXP( 1. / LAM);
-        IF ( CUSTNB(LIEN1) < C ) THEN
+NAME = SRC;
+TYPE = SOURCE;
+SERVICE = BEGIN
+    EXP(1./LAMBDA);
+    & Verification que le LIEN1 ne soit pas surchargé pour envoyer sur le 1er chemin
+    IF (CUSTNB(LIEN1)<C) THEN
+        BEGIN
+            DUREE := EXP(1./MU);
+            TRANSIT(LIEN1);
+        END
+    & Sinon on envoit sur le chemin de débordement
+    ELSE
+        BEGIN
+            DUREE := EXP(1./MU);
+            CUST := NEW (CUSTOMER);
+            CUST.DUREE := DUREE;
+            TRANSIT(CUST,LIEN2);
+            TRANSIT(LIEN3);
+        END;
+END;
+TRANSIT = OUT;
+
+
+& Station réceptrice simulant le premier lien (donc 1er chemin)
+/STATION/
+NAME = LIEN1;
+TYPE = MULTIPLE(C);
+& Si l'appel peut être décroché, alors on compte le nombre d'appel reçu
+SERVICE =
+BEGIN
+    EXP(1./MU);
+    App1OK := App1OK +1;
+END;
+CAPACITY = C;
+& En cas de rejet, on compte le nombre d'appel bloqué
+REJECT =
+BEGIN
+    App1Bloc := App1Bloc + 1;
+    TRANSIT(OUT);
+END;
+TRANSIT = OUT;
+
+
+& Station réceptrice simulant le second lien (1ère partie du 2nd chemin)
+/STATION/
+NAME=LIEN2;
+TYPE= MULTIPLE(C);
+SERVICE =
+BEGIN
+    EXP(1./MU);
+    App2OK := App2OK +1;
+END;
+CAPACITY = C;
+& En cas de rejet, on compte le nombre d'appel bloqué
+REJECT =
+BEGIN
+    App2Bloc := App2Bloc + 1;
+    TRANSIT(OUT);
+END;
+TRANSIT=OUT;
+
+
+& Station réceptrice simulant le second lien (2nd partie du 2nd chemin)
+/STATION/
+NAME=LIEN3;
+TYPE= MULTIPLE(C);
+SERVICE =
+BEGIN
+        EXP(1./MU);
+        App3OK := App3OK +1;
+END;
+CAPACITY = C;
+& En cas de rejet, on compte le nombre d'appel bloqué
+REJECT =
+BEGIN
+    App3Bloc := App3Bloc + 1;
+    TRANSIT(OUT);
+END;
+TRANSIT=OUT;
+
+
+/CONTROL/
+TMAX = 10000;
+
+
+/EXEC/
+BEGIN
+    FILASSIGN(courbe , "Partie 1 - 3 courbes.data");
+    OPEN(courbe);
+    & Variation de la charge (RHO) de 10 à 70 (ERL) par pas de 10
+    FOR RHO:=10 STEP 10 UNTIL ERL DO
+    BEGIN
+        LAMBDA := MU * RHO;
+        & Variation de la capacité (C) pour posséder une charge normalisée (RHO) comprise entre 0.5 et 1
+        FOR C := RHO STEP (RHO/2) UNTIL 2 * RHO DO
+        BEGIN
+            App1Bloc := 0;
+            App1OK := 0;
+            App2Bloc := 0;
+            App2OK := 0;
+            App3Bloc := 0;
+            App3OK := 0;
+            FOR I := 1 STEP 1 UNTIL NbSimu DO
+            BEGIN
+                SIMUL;
+            END;
+            App1Bloc := App1Bloc / NbSimu;
+            App1OK := App1OK / NbSimu;
+            App2Bloc := App2Bloc / NbSimu;
+            App2OK := App2OK / NbSimu;
+            App3Bloc := App3Bloc / NbSimu;
+            App3OK := App3OK / NbSimu;
+            WRITE(courbe, "  " , RHO , "  " , C , "  " , App1Bloc , "  " , App1OK , "  " , App1Bloc/(App1OK+App1Bloc));
+            WRITE(courbe, " ",  App2Bloc , "  " , App2OK , "  " );
+            IF((App2OK < 1) AND (App2Bloc <1)) THEN
                 BEGIN
-                DUREE := ( 1. / MU );
-                TRANSIT(LIEN1);
-            END
-        ELSE
-            IF ( ( CUSTNB(LIEN2) < C ) AND ( CUSTNB(LIEN3) < C ) ) THEN
-                BEGIN
-                    Duree := ( 1. / MU );
-                    CUST := NEW(CUSTOMER);
-                    CUST.DUREE := Duree;
-                    TRANSIT(CUST , LIEN2);
-                    TRANSIT(LIEN3);
+                        WRITE(courbe, "0");
                 END
             ELSE
                 BEGIN
-                    NbPertes := NbPertes + 1;
-                    TRANSIT(OUT);
+                        WRITE(courbe, App2Bloc/(App2OK+App2Bloc));
                 END;
-    END;
 
-&
-/STATION/
-    NAME = LIEN1;
-    TYPE = MULTIPLE(C);
-    SERVICE = CST(DUREE);
-    TRANSIT = OUT;
+            WRITE(courbe, " ",  App3Bloc , "  " , App3OK , "  " );
 
-&
-/STATION/
-    NAME = LIEN2;
-    TYPE = MULTIPLE(C);
-    SERVICE = CST(DUREE);
-    TRANSIT = OUT;
-
-&
-/STATION/
-    NAME = LIEN3;
-    TYPE = MULTIPLE(C);
-    SERVICE = CST(DUREE);
-    TRANSIT = OUT;
-
-&
-/EXEC/
-    BEGIN
-        MU := 1. / 180;
-        Erlang := 70;
-        NbSimu := 10;
-        &
-        FILASSIGN(cbQ , "p1.q3.data");
-        OPEN(cbQ);
-        &
-        FOR RHO := 10 STEP 2 UNTIL Erlang DO
-        BEGIN
-            LAM := MU * RHO;
-            &
-            FOR C := RHO STEP ( RHO / 2 ) UNTIL ( 2 * RHO ) DO
-            BEGIN
-            RhoNorm := RHO / C;
-            &
-            FOR I := 1 STEP 1 UNTIL NbSimu DO
-            BEGIN
-                X := 1;
-                SOMME := 1;
-                NbRejets := 0;
-                &
-                FOR J := 1 STEP 1 UNTIL C DO
+            IF((App3OK < 1) AND (App3Bloc <1)) THEN
                 BEGIN
-                    X := X * RHO / J;
-                    SOMME := SOMME + X;
+                        WRITE(courbe, "0");
+                END
+            ELSE
+                BEGIN
+                        WRITE(courbe, App3Bloc/(App3OK+App3Bloc));
                 END;
-                REJET := X * 1. / SOMME;
-                SIMUL;
-            END;
-            &
-            WRITELN(cbQ,I," ",minT," ",maxT," ",sumT/SERVNB(fakeOUT)," ",minA," ",maxA," ",sumA/SERVNB(fakeOUT));
-            &
-            END;
+            WRITELN(courbe, " ");
         END;
     END;
+END;
 
-&
+
 /END/
