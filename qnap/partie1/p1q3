@@ -7,7 +7,7 @@ ACCURACY = ALL QUEUE;
 
 /DECLARE/
 QUEUE SRC,LIEN_H, LIEN_B_1, LIEN_B_2;
-INTEGER nbTotal, nbTransmis, nbRejets,erlang,I,J,capacite,rho;
+INTEGER nbTotal, nbTransmis, nbRejets,erlang,I,J,capacite,rho, NbSimu = 5;
 REAL somme,DEBIT,lambda,mu,pRejets,X, pourcentage;
 CUSTOMER REAL duree;
 FILE fichier;
@@ -79,12 +79,18 @@ END;
             FOR capacite := rho STEP 1 UNTIL 2 * rho DO
                 BEGIN
                     lambda := mu * rho;
-
                     nbTotal := 0;
                     nbRejets := 0;
                     nbTransmis := 0;
 
-                    SIMUL;
+                    FOR I := 1 STEP 1 UNTIL NbSimu DO
+                        BEGIN
+                            SIMUL;
+                        END;
+
+                    nbTotal := nbTotal / NbSimu;
+                    nbRejets := nbRejets / NbSimu;
+                    nbTransmis := nbTransmis / NbSimu;
 
                     pourcentage := nbRejets * 1. / nbTotal;
 
