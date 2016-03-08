@@ -2,7 +2,7 @@
 /DECLARE/
 QUEUE SRC, LIEN1, LIEN2, LIEN3;
 INTEGER I, C, ERL = 70, NbSimu = 20;
-REAL RHO, LAMBDA, DUREE, App1OK, App1Bloc, App2OK, App2Bloc, App3OK, App3Bloc, MU = 1./180;
+REAL RHO, LAMBDA, DUREE, TOT, TOTFAIL, App1OK, App1Bloc, App2OK, App2Bloc, App3OK, App3Bloc, MU = 1./180;
 CUSTOMER REAL DUREE;
 REF CUSTOMER CUST;
 FILE courbe;
@@ -14,8 +14,9 @@ NAME = SRC;
 TYPE = SOURCE;
 SERVICE = BEGIN
     EXP(1./LAMBDA);
+    TOT := TOT +1;
     & Verification que le LIEN1 ne soit pas surcharge pour envoyer sur le 1er chemin
-    IF (CUSTNB(LIEN1)<C) THEN
+    IF (CUSTNB(LIEN1) < C) THEN
         BEGIN
             DUREE := EXP(1./MU);
             TRANSIT(LIEN1);
@@ -23,11 +24,18 @@ SERVICE = BEGIN
     & Sinon on envoit sur le chemin de debordement
     ELSE
         BEGIN
-            DUREE := EXP(1./MU);
-            CUST := NEW (CUSTOMER);
-            CUST.DUREE := DUREE;
-            TRANSIT(CUST,LIEN2);
-            TRANSIT(LIEN3);
+            IF (CUSTNB(LIEN2) < C) AND (CUSTNB(LIEN2) < C) THEN
+                BEGIN
+                    DUREE := EXP(1./MU);
+                    CUST := NEW (CUSTOMER);
+                    CUST.DUREE := DUREE;
+                    TRANSIT(CUST,LIEN2);
+                    TRANSIT(LIEN3);
+                END
+            ELSE
+                BEGIN
+                    TOTFAIL := TOTFAIL + 1;
+                END;
         END;
 END;
 TRANSIT = OUT;
@@ -76,15 +84,13 @@ TRANSIT=OUT;
 /STATION/
 NAME=LIEN3;
 TYPE= MULTIPLE(C);
-SERVICE =
-BEGIN
+SERVICE = BEGIN
         EXP(1./MU);
         App3OK := App3OK +1;
 END;
 CAPACITY = C;
 & En cas de rejet, on compte le nombre d'appel bloque
-REJECT =
-BEGIN
+REJECT = BEGIN
     App3Bloc := App3Bloc + 1;
     TRANSIT(OUT);
 END;
@@ -97,7 +103,7 @@ TMAX = 10000;
 
 /EXEC/
 BEGIN
-    FILASSIGN(courbe , "Partie 1 - 3 courbes.data");
+    FILASSIGN(courbe , "p1q3.data");
     OPEN(courbe);
     & Variation de la charge (RHO) de 10 a 70 (ERL) par pas de 10
     FOR RHO:=10 STEP 10 UNTIL ERL DO
@@ -112,6 +118,8 @@ BEGIN
             App2OK := 0;
             App3Bloc := 0;
             App3OK := 0;
+            TOT := 0;
+            TOTFAIL := 0;
             FOR I := 1 STEP 1 UNTIL NbSimu DO
             BEGIN
                 SIMUL;
@@ -143,6 +151,9 @@ BEGIN
                 BEGIN
                         WRITE(courbe, App3Bloc/(App3OK+App3Bloc));
                 END;
+
+            WRITE(courbe, " ", TOT , " " , TOTFAIL , " " , TOTFAIL / TOT);
+
             WRITELN(courbe, " ");
         END;
     END;
