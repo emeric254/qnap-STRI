@@ -1,0 +1,114 @@
+
+/CONTROL/
+OPTION = NSOURCE;
+TMAX = 100000;
+ACCURACY = ALL QUEUE;
+
+
+/DECLARE/
+QUEUE SRC,LIEN_1, LIEN_2, LIEN_3;
+INTEGER nbTotal, nbTransmis, nbRejets,erlang,I,J,capacite,rho, NbSimu = 5, marge;
+REAL somme,DEBIT,lambda,mu,pRejets,X, pourcentage;
+CUSTOMER REAL duree;
+FILE fichier;
+
+
+/STATION/
+NAME = SRC;
+TYPE = SOURCE;
+SERVICE =  BEGIN
+    duree := ( 1. / mu );
+    nbTotal := nbTotal + 1;
+    EXP( 1. / lambda );
+END;
+TRANSIT = LIEN_1;
+
+
+/STATION/
+NAME = LIEN_1;
+TYPE = MULTIPLE(capacite);
+SERVICE =  BEGIN
+    CST(duree);
+    TRANSIT(OUT);
+END;
+CAPACITY = capacite;
+
+REJECT = BEGIN
+    nbRejets := nbRejets + 1;
+    IF (CUSTNB(LIEN_2) < (C - marge)) AND (CUSTNB(LIEN_3) < (C - marge)) THEN
+    BEGIN
+        TRANSIT(LIEN_2);
+    END;
+    & rejet
+    TRANSIT(OUT);
+END;
+
+
+/STATION/
+NAME = LIEN_2;
+TYPE = MULTIPLE(capacite);
+SERVICE = BEGIN
+    CST(duree);
+    TRANSIT(LIEN_3);
+END;
+CAPACITY = capacite;
+REJECT = BEGIN
+    nbRejets := nbRejets + 1;
+    TRANSIT(OUT);
+END;
+
+
+/STATION/
+NAME = LIEN_3;
+TYPE = MULTIPLE(capacite);
+SERVICE = BEGIN
+    CST(duree);
+    TRANSIT(OUT);
+END;
+CAPACITY = capacite;
+REJECT = BEGIN
+    nbRejets := nbRejets + 1;
+    TRANSIT(OUT);
+END;
+
+
+/EXEC/
+    BEGIN
+        FILASSIGN(fichier , "p1.q4.data");
+        OPEN(fichier);
+
+        DEBIT := 64000;
+        mu := 1. / 180;
+        erlang := 70;
+
+        FOR marge := 0 STEP 1 UNTIL 3 DO
+        BEGIN
+            FOR rho := 1 STEP 1 UNTIL erlang DO
+            BEGIN
+                FOR capacite := rho STEP 1 UNTIL 2 * rho DO
+                    BEGIN
+                        lambda := mu * rho;
+                        nbTotal := 0;
+                        nbRejets := 0;
+                        nbTransmis := 0;
+
+                        FOR I := 1 STEP 1 UNTIL NbSimu DO
+                            BEGIN
+                                SIMUL;
+                            END;
+
+                        nbTotal := nbTotal / NbSimu;
+                        nbRejets := nbRejets / NbSimu;
+                        nbTransmis := nbTransmis / NbSimu;
+
+                        pourcentage := nbRejets * 1. / nbTotal;
+
+                        WRITELN(fichier, rho , " " , capacite , " " , nbTotal , " " , nbRejets , " " , pourcentage );
+                    END;
+            END;
+        END;
+    END;
+
+
+/END/
+
