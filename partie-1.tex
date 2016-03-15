@@ -31,22 +31,17 @@ Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées 
     % TODO >>>
     % ici graphique calcul theorique avec k et rho qui changent
     % TODO <<<
-%~ \begin{figure}
-    %~ \centering
-    %~ \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
+\begin{figure}
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
 
-    %~ set xlabel 'Charge (\%)'
-    %~ set ylabel 'Taux de rejet'
-    %~ plot "qnap/partie2/p2.q3.data" u 1:2 t "minT",\
-        %~ "qnap/partie2/p2.q3.data" u 1:3 t "maxT",\
-        %~ "qnap/partie2/p2.q3.data" u 1:4 w l t "moyenne temps traitement",\
-        %~ "qnap/partie2/p2.q3.data" u 1:5 t "minA" axes x1y2,\
-        %~ "qnap/partie2/p2.q3.data" u 1:6 t "maxA" axes x1y2,\
-        %~ "qnap/partie2/p2.q3.data" u 1:7 w l t "moyenne nb paquets en attente" axes x1y2
-    %~ \end{gnuplot}
-    %~ \caption{This is a simple example using the epslatex-terminal.}%
-    %~ \label{pic:epslatex}%
-%~ \end{figure}
+    set xlabel 'Charge (\%)'
+    set ylabel 'Taux de rejet'
+    plot "qnap/partie1/p1.q2.data" u 2:1 w l t "taux de rejet"
+    \end{gnuplot}
+    \caption{Résultats de l'étude théorique.}
+    \label{pic:p1q2}
+\end{figure}
 %
         \subsection{Simulation de la probabilité de blocage d'appel pour une charge comprise entre 10 et 70 Erlangs}
 Blablabla 1
