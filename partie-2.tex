@@ -48,15 +48,22 @@ Le lien de sortie a un débit de 10 Mbit/s.
         \subsection{Comparaison du résultat de la simulation avec la théorie}
             \paragraph{}
 Blablabla 1
-    % TODO >>>
-    % SIMULATION
-    % ici graphique
-    % TODO <<<
-\begin {figure}
+\begin{figure}
     \centering
-        \input{qnap/partie2/p2q3.tex}
-    \centering
-\end {figure}
+    \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
+
+    set xlabel 'Charge (\%)'
+    set ylabel 'Taux de rejet'
+    plot "qnap/partie2/p2.q3.data" u 1:2 t "minT",\
+        "qnap/partie2/p2.q3.data" u 1:3 t "maxT",\
+        "qnap/partie2/p2.q3.data" u 1:4 w l t "moyenne temps traitement",\
+        "qnap/partie2/p2.q3.data" u 1:5 t "minA" axes x1y2,\
+        "qnap/partie2/p2.q3.data" u 1:6 t "maxA" axes x1y2,\
+        "qnap/partie2/p2.q3.data" u 1:7 w l t "moyenne nb paquets en attente" axes x1y2
+    \end{gnuplot}
+    \caption{Résultats de la simulation.}%
+    \label{pic:p2q3}%
+\end{figure}
 %
         \subsection{Cas où les paquets ont une longueur constante (10000 bits)}
 %
@@ -85,6 +92,22 @@ Blablabla 5
     % SIMULATION
     % ici graphique
     % TODO <<<
+%~ \begin{figure}
+    %~ \centering
+    %~ \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
+
+    %~ set xlabel 'Charge (\%)'
+    %~ set ylabel 'Taux de rejet'
+    %~ plot "qnap/partie2/p2.q3.data" u 1:2 t "minT",\
+        %~ "qnap/partie2/p2.q3.data" u 1:3 t "maxT",\
+        %~ "qnap/partie2/p2.q3.data" u 1:4 w l t "moyenne temps traitement",\
+        %~ "qnap/partie2/p2.q3.data" u 1:5 t "minA" axes x1y2,\
+        %~ "qnap/partie2/p2.q3.data" u 1:6 t "maxA" axes x1y2,\
+        %~ "qnap/partie2/p2.q3.data" u 1:7 w l t "moyenne nb paquets en attente" axes x1y2
+    %~ \end{gnuplot}
+    %~ \caption{This is a simple example using the epslatex-terminal.}%
+    %~ \label{pic:epslatex}%
+%~ \end{figure}
 %
     \clearpage
 %
