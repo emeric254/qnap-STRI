@@ -7,13 +7,13 @@
 %
             \paragraph{}
 Nous cherchons à simuler un lien de sortie d'un commutateur de paquets.
-            %    \begin{figure}
-            %        \begin{center}
-                        %\includegraphics[scale=0.5]{RSC/2.1.png}
-            %        \end{center}
-            %            \caption{ Schéma de fonctionnement d'un commutateur de paquets }
-            %            \label{ Schéma de fonctionnement d'un commutateur de paquets }
-            %    \end{figure}
+%
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=0.5]{RSC/2-0.png}
+                \caption{ Schéma du système à commutateur de paquets étudié }
+                \label{ Schema du systeme a commutateur de paquets }
+            \end{figure}
 %
             \paragraph{}
 L'arrivée des paquets est supposée suivre une loi exponentielle de paramètre $\lambda$.
@@ -26,6 +26,14 @@ Le lien de sortie a un débit de 10 Mbit/s.
 \[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
         \subsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
+%
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=0.5]{RSC/2-1.png}
+                \caption{ Schéma de fonctionnement d'un commutateur de paquets }
+                \label{ Schema de fonctionnement d'un commutateur de paquets }
+            \end{figure}
+%
 \[  \lambda = \rho \mu \]
 \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
 \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
