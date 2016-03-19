@@ -1,6 +1,7 @@
 %
 \chapter{RTC : Réseau Téléphonique Commuté}
 %
+%
     \section{Analyse sur un lien}
         \label{seullien} % label pour reference
 %
@@ -11,27 +12,33 @@ Considérons un lien d'un réseau à commutation de circuits permettant de véhi
 %
             \begin{figure}[h]
                 \centering
-                \includegraphics[scale=0.5]{RSC/1-1.png}
+                \includegraphics[scale=0.6]{RSC/1-1.png}
                 \caption{ Schéma du réseau à commutation de circuit étudié }
                 \label{ Schema du reseau a commutation de circuit }
             \end{figure}
 %
             \paragraph{}
-Chacune des connexions nécessite un débit de 64 Kb/s bi-directionnels.
+Chacune des connexions nécessite un débit de 64 Kb/s de façon bi-directionnel.
 On peut multiplexer simultanément $C$ appels téléphoniques sur ce lien.
 %
         \paragraph{}
 Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées des nouveaux appels suivent une loi de paramètre, les durées des appels sont supposées suivre une loi exponentielle de paramètre , ($frac{1}{u} = 3 min$).
+%
+%
+\clearpage
+%
 %
         \subsection{Probabilité de blocage d'appel en fonction de la charge $\rho$ et de la capacité $C$}
 \[ P(\text{blocage}) = \frac{ \frac{ \rho^C }{ C! } }{ \sum\limits_{i=0}^C \frac{ \rho^i }{ i! } } \]
 \begin{center}
     avec $\rho$ la charge en Erlang et $C$ la capacité.
 \end{center}
+        \paragraph{}
+Voici les résultats de ce calcul, obtenus grâce au script (cf. \ref{seullien-script}})
     % TODO >>>
     % ici graphique calcul theorique avec k et rho qui changent
     % TODO <<<
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
 
@@ -43,13 +50,17 @@ Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées 
     \label{pic:p1q1}
 \end{figure}
 %
+%
+\clearpage
+%
+%
         \subsection{Simulation de la probabilité de blocage d'appel pour une charge comprise entre 10 et 70 Erlangs}
 Blablabla 1
     % TODO >>>
     % SIMULATION
     % ici graphique
     % TODO <<<
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
 
@@ -61,31 +72,31 @@ Blablabla 1
     \label{pic:p1q2}
 \end{figure}
 %
+%
+\clearpage
+%
+%
         \subsection{Variation de la capacité C pour une variation de la charge normalisée entre 0.5 et 1}
 Blablabla 2
     % TODO >>>
     % SIMULATION
     % ici graphique
     % TODO <<<
-%~ \begin{figure}
-    %~ \centering
-    %~ \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
+\begin{figure}[h]
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
 
-    %~ set xlabel 'Charge (\%)'
-    %~ set ylabel 'Taux de rejet'
-    %~ plot "qnap/partie2/p2.q3.data" u 1:2 t "minT",\
-        %~ "qnap/partie2/p2.q3.data" u 1:3 t "maxT",\
-        %~ "qnap/partie2/p2.q3.data" u 1:4 w l t "moyenne temps traitement",\
-        %~ "qnap/partie2/p2.q3.data" u 1:5 t "minA" axes x1y2,\
-        %~ "qnap/partie2/p2.q3.data" u 1:6 t "maxA" axes x1y2,\
-        %~ "qnap/partie2/p2.q3.data" u 1:7 w l t "moyenne nb paquets en attente" axes x1y2
-    %~ \end{gnuplot}
-    %~ \caption{This is a simple example using the epslatex-terminal.}%
-    %~ \label{pic:epslatex}%
-%~ \end{figure}
+    set xlabel 'Charge (Erlangs)'
+    set ylabel 'Taux de rejet'
+    plot "qnap/partie1/p1.q2.data" u 2:1 w l t "taux de rejet"
+    \end{gnuplot}
+    \caption{Résultats de l'étude théorique.}
+    \label{pic:p1q2}
+\end{figure}
 %
         \subsection{Comparaison des taux de blocage expérimental et théorique}
 Blablabla 3
+%
 %
     \clearpage
 %
@@ -100,7 +111,7 @@ Désormais, nous considérons le réseau composé des 3 nœuds suivant :
 %
             \begin{figure}[h]
                 \centering
-                \includegraphics[scale=0.5]{RSC/1-2.png}
+                \includegraphics[scale=0.6]{RSC/1-2.png}
                 \caption{ Schéma du réseau à 3 commutateurs de circuit étudié }
                 \label{ Schema du reseau a 3 commutateurs de circuit }
             \end{figure}
@@ -110,14 +121,19 @@ Les arrivées sont supposées Poissonniennes sur chacun des nœuds et le trafic 
 Les durées des appels sont supposées exponentielles de même paramètre que dans la première partie (1-a).
 Nous ne considérons pas les appels locaux ni les appels qui n'aboutissent pas (absence).
 %
+%
+    \clearpage
+%
+%
         \subsection{Probabilités de blocage avec le chemin de débordement en cas de saturation du chemin direct}
-Blablabla 4
+Blablabla 4.
+Avec un canal de débordement on obtient donc une capacité doublée, il n'y plus de blocage ... ?
 %
         \subsection{Comparaison des résultats avec la partie \ref{seullien}}
         % (on choisira donc des charges de trafic et des capacités de liens équivalentes)
 Blablabla 5
     % TODO >>>
-    % ici graphique simulation ou juste calculs ??
+    % ici graphique simulation et calculs ??
     % TODO <<<
 %~ \begin{figure}
     %~ \centering
@@ -136,9 +152,13 @@ Blablabla 5
     %~ \label{pic:epslatex}%
 %~ \end{figure}
 %
+%
+    \clearpage
+%
+%
         \subsection{Problèmes à très forte charge !}
             \paragraph{}
-Une solution consiste à n'utiliser le chemin de débordement que lorsque celui-ci n'est pas très encombré (en dessous d'un certain seuil d'occupation sur chacun des liens).
+Une solution consiste à n'utiliser le chemin de débordement que lorsque celui-ci n'est pas très encombré, c'est à dire en dessous d'un certain seuil d'occupation sur chacun des liens.
 Cela revient donc à laisser une marge M aux appels directs.
 %
             \subsubsection{Commentaires}
