@@ -18,12 +18,12 @@ Nous cherchons à simuler un lien de sortie d'un commutateur de paquets.
             \paragraph{}
 L'arrivée des paquets est supposée suivre une loi exponentielle de paramètre $\lambda$.
 Nous positionnons une file en sortie du commutateur pour stocker les différents paquets.
-Les paquets ont une longueur exponentielle-ment distribuée de paramètre $\frac{1}{\nu} = 10 000 bits$.
+Les paquets ont une longueur exponentielle-ment distribuée de paramètre $\frac{1}{\nu} = 10 000 \ \text{bits}$.
 Le lien de sortie a un débit de 10 Mbit/s.
 %
         \subsection{Calcul analytique du temps moyen de service $\frac{1}{\mu}$}
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
         \subsection{Déterminer le nombre moyen de paquets dans la file et le temps moyen de réponse en fonction du taux d'arrivée pour différentes durées de simulation}
 %
@@ -34,7 +34,7 @@ Le lien de sortie a un débit de 10 Mbit/s.
                 \label{ Schema de fonctionnement d'un commutateur de paquets }
             \end{figure}
 %
-\[  \lambda = \rho \mu \]
+\[  \lambda = \rho * \mu \]
 \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
 \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
 \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
@@ -44,11 +44,11 @@ Le lien de sortie a un débit de 10 Mbit/s.
         \hline
             $\rho$ & 0.1 & 0.5 & 0.9 \\
         \hline
-            $\lambda$ & $10^{2}$ & $5 10^{2}$ & $9 10^{2}$ \\
+            $\lambda$ & $10^{2}$ & $5 * 10^{2}$ & $9 * 10^{2}$ \\
         \hline
             Nombre moyen de client & 0.11111 & 1 & 9 \\
         \hline
-            Temps moyen de réponse & 0.00111 & 0.002 & 0.01 \\
+            Temps moyen de réponse [s] & 0.00111 & 0.002 & 0.01 \\
         \hline
     \end{tabular}
 \end{center}
@@ -80,7 +80,7 @@ Blablabla 1
                 \paragraph{}
 On obtient la même chose que précédemment :
 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
-\[ \iff \frac{1}{\nu} \frac{1}{D} = 10^{4} \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
+\[ \iff \frac{1}{\nu} * \frac{1}{D} = 10^{4} * \frac{1}{10^{7}} = \frac{1}{10^{3}} = 10^{-3} \ \text{seconde} \]
 %
             \subsubsection{Résultats en fonction du taux d'arrivée pour différentes durées de simulation}
 %
