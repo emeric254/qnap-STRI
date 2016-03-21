@@ -1,121 +1,115 @@
-
+&
 /CONTROL/
-OPTION = NSOURCE;
-TMAX = 100000;
-ACCURACY = ALL QUEUE;
-
-
+    OPTION = NSOURCE;
+    TMAX = 100000;
+    ACCURACY = ALL QUEUE;
+&
 /DECLARE/
-QUEUE SRC,LIEN1, LIEN2, LIEN3;
-INTEGER nbTot, nbTrsm, nbRjt,Erlg,I,J,C,rho, rr, NbSimu = 5;
-REAL somme, DEBIT, lambda, mu, taux;
-CUSTOMER REAL duree;
-FILE fichier;
-
-
+    QUEUE SRC,LIEN1, LIEN2, LIEN3;
+    INTEGER TOTAL, NBTX, NBRJ, LOAD, I, C, RHO, RDRB, NBSIMU;
+    REAL DEBIT, LAMBDA, MU, PCT;
+    CUSTOMER REAL duree;
+    FILE fichier;
+&
 /STATION/
-NAME = SRC;
-TYPE = SOURCE;
-SERVICE =  BEGIN
-    duree := ( 1. / mu );
-    nbTot := nbTot + 1;
-    EXP( 1. / lambda );
-    IF (rr = 0) THEN
-    BEGIN
-        rr := 1;
-        TRANSIT(LIEN1);
-    END
-    ELSE
-    BEGIN
-        rr := 0;
-        TRANSIT(LIEN2);
+    NAME = SRC;
+    TYPE = SOURCE;
+    SERVICE =  BEGIN
+        duree := ( 1. / MU );
+        TOTAL := TOTAL + 1;
+        EXP( 1. / LAMBDA );
+        & round robin
+        IF (RDRB = 0) THEN
+            BEGIN
+                RDRB := 1;
+                TRANSIT(LIEN1);
+            END
+        ELSE
+            BEGIN
+                RDRB := 0;
+                TRANSIT(LIEN2);
+            END;
     END;
-END;
-TRANSIT = OUT;
-
+    TRANSIT = OUT;
+&
 /STATION/
-NAME = LIEN1;
-TYPE = MULTIPLE(C);
-SERVICE =  BEGIN
-    CST(duree);
-    TRANSIT(OUT);
-END;
-CAPACITY = C;
-
-REJECT = BEGIN
-    IF (CUSTNB(LIEN2) < C) THEN
-    BEGIN
-        TRANSIT(LIEN2);
+    NAME = LIEN1;
+    TYPE = MULTIPLE(C);
+    SERVICE =  BEGIN
+        CST(duree);
+        TRANSIT(OUT);
     END;
-    nbRjt := nbRjt + 1;
-    TRANSIT(OUT);
-END;
-
-
-/STATION/
-NAME = LIEN2;
-TYPE = MULTIPLE(C);
-SERVICE = BEGIN
-    CST(duree);
-    TRANSIT(LIEN3);
-END;
-CAPACITY = C;
-REJECT = BEGIN
-    IF (CUSTNB(LIEN1) < C) THEN
-    BEGIN
-        TRANSIT(LIEN1);
+    CAPACITY = C;
+    REJECT = BEGIN
+        IF (CUSTNB(LIEN2) < C) THEN
+            BEGIN
+                TRANSIT(LIEN2);
+            END;
+        NBRJ := NBRJ + 1;
+        TRANSIT(OUT);
     END;
-    nbRjt := nbRjt + 1;
-    TRANSIT(OUT);
-END;
-
+&
 /STATION/
-NAME = LIEN3;
-TYPE = MULTIPLE(C);
-SERVICE = BEGIN
-    CST(duree);
-    TRANSIT(OUT);
-END;
-CAPACITY = C;
-REJECT = BEGIN
-    nbRjt := nbRjt + 1;
-    TRANSIT(OUT);
-END;
-
-
+    NAME = LIEN2;
+    TYPE = MULTIPLE(C);
+    SERVICE = BEGIN
+        CST(duree);
+        TRANSIT(LIEN3);
+    END;
+    CAPACITY = RHO;
+    REJECT = BEGIN
+        IF (CUSTNB(LIEN1) < C) THEN
+            BEGIN
+                TRANSIT(LIEN1);
+            END;
+        NBRJ := NBRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
+/STATION/
+    NAME = LIEN3;
+    TYPE = MULTIPLE(C);
+    SERVICE = BEGIN
+        CST(duree);
+        TRANSIT(OUT);
+    END;
+    CAPACITY = C;
+    REJECT = BEGIN
+        NBRJ := NBRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
 /EXEC/
     BEGIN
+        & output data file
         FILASSIGN(fichier , "p1.q3-2.data");
         OPEN(fichier);
-
-        rr := 0;
+        & var init
+        NBSIMU := 5;
+        RDRB := 0;
         DEBIT := 64000;
-        mu := 1. / 180;
-        Erlg := 70;
-
-        FOR rho := 1 STEP 1 UNTIL Erlg DO
-        BEGIN
-            FOR C := rho STEP 1 UNTIL 2 * rho DO
+        MU := 1. / 180;
+        LOAD := 70;
+        & process simulations
+        FOR RHO := 1 STEP 1 UNTIL LOAD DO
             BEGIN
-                lambda := mu * rho;
-                nbTot := 0;
-                nbRjt := 0;
-                nbTrsm := 0;
-
-                FOR I := 1 STEP 1 UNTIL NbSimu DO
-                BEGIN
-                    SIMUL;
-                END;
-
-                nbTot := nbTot / NbSimu;
-                nbRjt := nbRjt / NbSimu;
-                nbTrsm := nbTrsm / NbSimu;
-
-                taux := nbRjt * 1. / nbTot;
-
-                WRITELN(fichier, rho , " " , C , " " , nbTot , " " , nbRjt , " " , taux );
+                FOR C := RHO STEP 1 UNTIL 2 * RHO DO
+                    BEGIN
+                        LAMBDA := MU * RHO;
+                        TOTAL := 0;
+                        NBRJ := 0;
+                        NBTX := 0;
+                        FOR I := 1 STEP 1 UNTIL NBSIMU DO
+                            BEGIN
+                                SIMUL;
+                            END;
+                        TOTAL := TOTAL / NBSIMU;
+                        NBRJ := NBRJ / NBSIMU;
+                        NBTX := NBTX / NBSIMU;
+                        PCT := NBRJ * 1. / TOTAL;
+                        WRITELN(fichier, RHO , " " , C , " " , TOTAL , " " , NBRJ , " " , PCT );
+                    END;
             END;
-        END;
     END;
 /END/
 
