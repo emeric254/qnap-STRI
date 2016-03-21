@@ -42,22 +42,20 @@
         OUTFILE := 5;
         & process simulations
         FOR RHO := 10 STEP 5 UNTIL Erlang DO
-        BEGIN
-            LAMBDA := MU * RHO;
-            FOR C := RHO STEP 5 UNTIL (RHO * 2) DO
             BEGIN
-                NbOK := 0;
-                NbRejets := 0;
-                FOR I := 1 STEP 1 UNTIL NBSIMU DO
-                BEGIN
-                    SIMUL;
-                END;
-                NbOK := NbOK / NBSIMU;
-                NbRejets := NbRejets / NBSIMU;
-                WRITELN(OUTFILE , " " , RHO , " " , C , " " , NbRejets , " " , NbOK , " " , NbRejets / (NbOK + NbRejets));
+                LAMBDA := MU * RHO;
+                FOR C := RHO STEP 5 UNTIL (RHO * 2) DO
+                    BEGIN
+                        NbOK := 0;
+                        NbRejets := 0;
+                        FOR I := 1 STEP 1 UNTIL NBSIMU DO
+                        BEGIN
+                            SIMUL;
+                        END;
+                        NbOK := NbOK / NBSIMU;
+                        NbRejets := NbRejets / NBSIMU;
+                        WRITELN(OUTFILE , " " , RHO , " " , C , " " , NbRejets , " " , NbOK , " " , NbRejets / (NbOK + NbRejets));
+                    END;
             END;
-            &
-        END;
     END;
-&
 /END/
