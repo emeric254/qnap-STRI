@@ -24,6 +24,9 @@ Le lien de sortie a un débit de $10 \ \text{Mb}.\text{s}^{-1}$.
 %
         \subsection{Calcul analytique du temps moyen de service $\frac{1}{\mu}$}
 %
+                \paragraph{}
+On obtient le même temps moyen de service suivant :
+%
             \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
             \[ \iff \frac{1}{\nu} * \frac{1}{D} = 10 * 10^{3} * \frac{1}{10^{7}} \]
             \[ \iff 10^{4} * 10^{-7} = 10^{-3} \ \text{seconde} \]
@@ -40,20 +43,20 @@ Le lien de sortie a un débit de $10 \ \text{Mb}.\text{s}^{-1}$.
 %
             \[  \lambda = \rho * \mu \]
             \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
-            \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
-            \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
+            \[  \text{Nombre moyen de client(s) en file d'attente} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
+            \[  \text{Temps moyen de réponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
             \[  \bar{N} = \lambda \bar{W} \]
 %
             \begin{center}
                 \begin{tabular}{ | c | c| c | c | }
                     \hline
-                        $\rho$ & 0.1 & 0.5 & 0.9 \\
+                        $\rho$                                          & 0.1       & 0.5           & 0.9           \\
                     \hline
-                        $\lambda$ & $10^{2}$ & $5 * 10^{2}$ & $9 * 10^{2}$ \\
+                        $\lambda$                                       & $10^{2}$  & $5 * 10^{2}$  & $9 * 10^{2}$  \\
                     \hline
-                        Nombre moyen de client & 0.11111 & 1 & 9 \\
+                        Nombre moyen de client(s) en file d'attente     & 0.11111   & 1             & 9             \\
                     \hline
-                        Temps moyen de réponse [s] & 0.00111 & 0.002 & 0.01 \\
+                        Temps moyen de réponse [s]                      & 0.00111   & 0.002         & 0.01          \\
                     \hline
                 \end{tabular}
             \end{center}
@@ -71,16 +74,16 @@ Blablabla 1
                 \centering
                 \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
                 set xlabel 'Charge (\%)'
-                set ylabel 'Taux de rejet'
-                plot "qnap/partie2/p2.q3.data" u 1:2 t "min du temps traitement",\
-                    "qnap/partie2/p2.q3.data" u 1:3 t "max du temps traitement",\
-                    "qnap/partie2/p2.q3.data" u 1:4 w l t "moyenne du temps traitement",\
-                    "qnap/partie2/p2.q3.data" u 1:5 t "min nombre de paquets en attente" axes x1y2,\
-                    "qnap/partie2/p2.q3.data" u 1:6 t "max nombre de paquets en attente" axes x1y2,\
-                    "qnap/partie2/p2.q3.data" u 1:7 w l t "moyenne nombre de paquets en attente" axes x1y2
+                set ylabel 'Taux de rejet / Temps de traitement'
+                plot "qnap/partie2/p2.q3.data"  u 1:2 t         "min du temps traitement",\
+                    "qnap/partie2/p2.q3.data"   u 1:3 t         "max du temps traitement",\
+                    "qnap/partie2/p2.q3.data"   u 1:4 w l t     "moyenne du temps traitement",\
+                    "qnap/partie2/p2.q3.data"   u 1:5 t         "min nombre de paquets en attente" axes x1y2,\
+                    "qnap/partie2/p2.q3.data"   u 1:6 t         "max nombre de paquets en attente" axes x1y2,\
+                    "qnap/partie2/p2.q3.data"   u 1:7 w l t     "moyenne nombre de paquets en attente" axes x1y2
                 \end{gnuplot}
-                \caption{Résultats de la simulation.}%
-                \label{pic:p2q3}%
+                \caption{Résultats de la simulation.}
+                \label{pic:p2q3}
             \end{figure}
 %
 %
@@ -92,7 +95,7 @@ Blablabla 1
             \subsubsection{Calculer analytiquement le temps moyen de service $\frac{1}{\mu}$}
 %
                 \paragraph{}
-On obtient la même chose que précédemment :
+On obtient le même temps moyen de service que précédemment :
 %
                 \[  \text{Temps moyen de service} = \frac{1}{\mu} \]
                 \[ \iff \frac{1}{\nu} * \frac{1}{D} = 10 * 10^{3} * \frac{1}{10^{7}} \]
@@ -106,11 +109,11 @@ On obtient la même chose que précédemment :
 Blablabla 2
 Temps moyen de réponse et nombre moyen de paquets dans la file d'attente :
 %
-            %~ \[  \lambda = \rho * \mu \]
-            %~ \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
-            %~ \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \rho)} \]
-            %~ \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{(\mu - \lambda)} \]
-            %~ \[  \bar{N} = \lambda \bar{W} \]
+            \[  \lambda = \rho * \mu \]
+            \[  \text{Charge de trafic} \ \rho = \frac{\lambda}{\mu} \]
+            \[  \text{Nombre moyen de client} \ \bar{N} = \frac{\rho}{(1 - \frac{\rho}{2})} \]
+            \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{2*(\mu - \lambda)} \]
+            \[  \bar{N} = \lambda \bar{W} \]
 %
             %~ \begin{center}
                 %~ \begin{tabular}{ | c | c| c | c | }
