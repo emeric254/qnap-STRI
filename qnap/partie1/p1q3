@@ -72,23 +72,23 @@
         LOAD := 70;
         & process simulations
         FOR RHO := 1 STEP 1 UNTIL LOAD DO
-        BEGIN
-            FOR C := RHO STEP 1 UNTIL 2 * RHO DO
-                BEGIN
-                    LAMBDA := MU * RHO;
-                    TOTAL := 0;
-                    TOTALRJ := 0;
-                    TOTALTX := 0;
-                    FOR I := 1 STEP 1 UNTIL NBSIMU DO
-                        BEGIN
-                            SIMUL;
-                        END;
-                    TOTAL := TOTAL / NBSIMU;
-                    TOTALRJ := TOTALRJ / NBSIMU;
-                    TOTALTX := TOTALTX / NBSIMU;
-                    PRCT := TOTALRJ * 1. / TOTAL;
-                    WRITELN(OUTFILE, RHO , " " , C , " " , TOTAL , " " , TOTALRJ , " " , PRCT );
-                END;
-        END;
+            BEGIN
+                FOR C := RHO STEP 1 UNTIL 2 * RHO DO
+                    BEGIN
+                        LAMBDA := MU * RHO;
+                        TOTAL := 0;
+                        TOTALRJ := 0;
+                        TOTALTX := 0;
+                        FOR I := 1 STEP 1 UNTIL NBSIMU DO
+                            BEGIN
+                                SIMUL;
+                            END;
+                        TOTAL := TOTAL / NBSIMU;
+                        TOTALRJ := TOTALRJ / NBSIMU;
+                        TOTALTX := TOTALTX / NBSIMU;
+                        PRCT := TOTALRJ * 1. / TOTAL;
+                        WRITELN(OUTFILE, RHO , " " , C , " " , TOTAL , " " , TOTALRJ , " " , PRCT );
+                    END;
+            END;
     END;
 /END/
