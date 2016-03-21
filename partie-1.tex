@@ -126,6 +126,7 @@ On imagine déjà qu'en cas de forte charge un problème de saturation du systè
 %
         \subsection{Comparaison des résultats avec la partie \ref{seullien}}
 La simulation se termine brutalement avant d'atteindre une charge de 40, le réseau sature totalement.
+Toutefois il est parfois, sur un coup de chance pendant la simulation, possible de s'en rapprocher mais le simulateur n'arrive pas à terminer la simulation par manque de mémoire (limitation de ce vieux programme sûrement compilé en 16 bits).
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
@@ -159,7 +160,7 @@ On imagine que cela évite de bloquer les stations en débordant sur elles puisq
             \subsubsection{Simulation en prenant une marge comprise entre 1 et 3}
 %
                 \paragraph{}
-Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les débordements est présent, cependant il est normal de constater une légère augmentation du taux de rejet : la marge n'est pas toujours totalement utiliser (l'augmenter ne fera qu'accroître se phénomène).
+Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les débordements est présent, cependant il est normal de constater une légère augmentation du taux de rejet : la marge n'est pas toujours totalement utiliser (l'augmenter ne fera qu'accroître ce phénomène).
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
