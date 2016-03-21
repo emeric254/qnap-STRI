@@ -37,7 +37,7 @@ Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées 
             \end{center}
 %
             \paragraph{}
-Voici les résultats de ce calcul, obtenus grâce aux calculs réalisés par notre script Python inclus en annexe \ref{seullien-script}
+Voici les résultats de ce calcul, obtenus par notre script Python inclus en annexe \ref{seullien-script}
 % TODO >>> ici graphique calcul theorique avec k et rho qui changent
             \begin{figure}[h]
                 \centering
@@ -46,7 +46,7 @@ Voici les résultats de ce calcul, obtenus grâce aux calculs réalisés par not
                     set ylabel 'Taux de rejet'
                     plot "qnap/partie1/calcul.p1.q1.data" u 2:1 w l t "taux de rejet"
                 \end{gnuplot}
-                \caption{Résultats de l'étude théorique.}
+                \caption{Graphique des résultats de l'étude théorique.}
                 \label{pic:p1q1}
             \end{figure}
 %
@@ -67,7 +67,7 @@ Pour une charge $10 < \rho < 70$ et pour une capacité $\rho < C < 2*\rho$.
             set ylabel 'Taux de rejet'
             plot "qnap/partie1/p1.q2.data" u 2:1 w l t "taux de rejet"
             \end{gnuplot}
-            \caption{Résultats de l'étude théorique.}
+            \caption{Graphique des résultats de la simulation.}
             \label{pic:p1q2}
         \end{figure}
 %
