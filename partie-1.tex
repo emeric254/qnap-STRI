@@ -125,8 +125,7 @@ Chaque routeur est représenté par une source qui émet alternativement sur ces
 On imagine déjà qu'en cas de forte charge un problème de saturation du système sera inévitable.
 %
         \subsection{Comparaison des résultats avec la partie \ref{seullien}}
-Blablabla 3
-La simulation se termine brutalement avant d'atteindre une charge de 40, le réseau sature.
+La simulation se termine brutalement avant d'atteindre une charge de 40, le réseau sature totalement.
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
@@ -154,13 +153,13 @@ Cela revient donc à laisser une marge M aux appels directs.
             \subsubsection{Commentaires}
 %
                 \paragraph{}
-Blablabla 4
+On imagine que cela évite de bloquer les stations en débordant sur elles puisqu'elle auront chacune une marge de sécurité pour transmettre les appels directs.
 %
 %
             \subsubsection{Simulation en prenant une marge comprise entre 1 et 3}
 %
                 \paragraph{}
-Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les débordements est présent.
+Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les débordements est présent, cependant il est normal de constater une légère augmentation du taux de rejet : la marge n'est pas toujours totalement utiliser (l'augmenter ne fera qu'accroître se phénomène).
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
