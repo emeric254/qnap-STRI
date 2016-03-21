@@ -1,77 +1,57 @@
-
+%
 \appendix{}
-
+%
 \chapter{Annexes}
-
-    \section{Exemple(s)}
-
-        \paragraph{}
-            \emph{emphatique}
-            \textbf{gras}
-            \texttt{machine à écrire}
-            \textsl{incliné}
-            \textsc{Petites majuscules}
-
-        \paragraph{}
-            The foundations of the rigorous study of \emph{analysis}
-            were laid in the nineteenth century, notably by the
-            mathematicians Cauchy and Weierstrass. Central to the
-            study of this subject are the formal definitions of
-            \emph{limits} and \emph{continuity}.
-
-        \paragraph{}
-            Let $D$ be a subset of $\bf R$ and let
-            $f \colon D \to \mathbf{R}$ be a real-valued function on
-            $D$. The function $f$ is said to be \emph{continuous} on
-            $D$ if, for all $\epsilon > 0$ and for all $x \in D$,
-            there exists some $\delta > 0$ (which may depend on $x$)
-            such that if $y \in D$ satisfies
-            \[ |y - x| < \delta \]
-            then
-            \[ |f(y) - f(x)| < \epsilon. \]
-
-        \paragraph{}
-            One may readily verify that if $f$ and $g$ are continuous
-            functions on $D$ then the functions $f+g$, $f-g$ and
-            $f.g$ are continuous. If in addition $g$ is everywhere
-            non-zero then $f/g$ is continuous.
-
-    \clearpage
-
-
 %
-    \section{Répétition}
+%
+    \section{Analyse sur un lien}
 %
         \paragraph{}
-Implémentation de l'envoi pour le Code de Répétition
-\lstinputlisting{./Repetition/Perl/receptionNoise.pl}
+            \label{seullien-script}
+Script Python de calcul de la probabilité de blocage d'appel $P$ en fonction de la charge $\rho$ et de la capacité $C$.
+\lstinputlisting{./qnap/partie1/calcul.p1.q1.py}
     \clearpage
 %
         \paragraph{}
-Implémentation de la réception pour le Code de Répétition
-\lstinputlisting{./Repetition/Perl/envoiNoise.pl}
+Simulation d'un lien d'un réseau à commutation de circuits.
+\lstinputlisting{./qnap/partie1/p1q2}
+    \clearpage
+%
+%
+%
+    \section{Analyse sur un réseau de trois commutateurs}
+%
+        \paragraph{}
+Simulation d'un lien d'un réseau à 3 commutateurs de circuits.
+\lstinputlisting{./qnap/partie1/p1q3-2}
     \clearpage
 %
         \paragraph{}
-Implémentation de la vérification pour le Code de Répétition
-\lstinputlisting{./Repetition/Perl/Repetition.pm}
+Simulation d'un lien d'un réseau à 3 commutateurs de circuits avec marge pour le débordement.
+\lstinputlisting{./qnap/partie1/p1q4}
     \clearpage
-
-
 %
-    \section{VRC}
 %
-        \paragraph{}
-Implémentation de l'envoi pour le VRC
-\lstinputlisting{./VRC/Perl/receptionNoise.pl}
-    \clearpage
+%
+    \section{Un commutateur de paquets}
 %
         \paragraph{}
-Implémentation de la réception pour le VRC
-\lstinputlisting{./VRC/Perl/envoiNoise.pl}
-    \clearpage
+Script Python de calcul pour un lien de sortie d'un commutateur de paquets.
+\lstinputlisting{./qnap/partie2/calcul.p2.q1.py}
+    \clearpage{}
 %
         \paragraph{}
-Implémentation de la vérification VRC
-\lstinputlisting{./VRC/Perl/Parity.pm}
+Simulation d'un lien de sortie d'un commutateur de paquets.
+\lstinputlisting{./qnap/partie2/p2q3.qnp}
+    \clearpage{}
+%
+        \paragraph{}
+Script Python de calcul pour un lien de sortie d'un commutateur de paquets avec la taille des paquets constante.
+\lstinputlisting{./qnap/partie2/calcul.p2.q2.py}
+    \clearpage{}
+%
+        \paragraph{}
+Simulation d'un lien de sortie d'un commutateur de paquets avec la taille des paquets constante.
+\lstinputlisting{./qnap/partie2/p2CST}
     \clearpage
+%

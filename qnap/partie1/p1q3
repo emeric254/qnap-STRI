@@ -1,0 +1,94 @@
+&
+/CONTROL/
+    OPTION = NSOURCE;
+    TMAX = 100000;
+    ACCURACY = ALL QUEUE;
+&
+/DECLARE/
+    QUEUE SRC,LIEN_H, LIEN_B_1, LIEN_B_2;
+    INTEGER TOTAL, TOTALTX, TOTALRJ, LOAD, I, J, C, RHO, NBSIMU;
+    REAL DEBIT, LAMBDA, MU, PRCT;
+    CUSTOMER REAL TIME;
+    FILE OUTFILE;
+&
+/STATION/
+    NAME = SRC;
+    TYPE = SOURCE;
+    SERVICE =  BEGIN
+        TIME := ( 1. / MU);
+        TOTAL := TOTAL + 1;
+        EXP( 1. / LAMBDA );
+    END;
+    TRANSIT = LIEN_H;
+&
+/STATION/
+    NAME = LIEN_H;
+    TYPE = MULTIPLE(C);
+    SERVICE =  BEGIN
+        CST(TIME);
+        TRANSIT(OUT);
+    END;
+    CAPACITY = C;
+    REJECT = BEGIN
+        TOTALRJ := TOTALRJ + 1;
+        TRANSIT(LIEN_B_1);
+    END;
+&
+/STATION/
+    NAME = LIEN_B_1;
+    TYPE = MULTIPLE(C);
+    SERVICE = BEGIN
+        CST(TIME);
+        TRANSIT(LIEN_B_2);
+    END;
+    CAPACITY = C;
+    REJECT = BEGIN
+        TOTALRJ := TOTALRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
+/STATION/
+    NAME = LIEN_B_2;
+    TYPE = MULTIPLE(C);
+    SERVICE = BEGIN
+        CST(TIME);
+        TRANSIT(OUT);
+    END;
+    CAPACITY = C;
+    REJECT = BEGIN
+        TOTALRJ := TOTALRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
+/EXEC/
+    BEGIN
+        & output data file
+        FILASSIGN(OUTFILE , "p1.q3.data");
+        OPEN(OUTFILE);
+        & var init
+        NBSIMU := 5;
+        DEBIT := 64000;
+        MU := 1. / 180;
+        LOAD := 70;
+        & process simulations
+        FOR RHO := 1 STEP 1 UNTIL LOAD DO
+            BEGIN
+                FOR C := RHO STEP 1 UNTIL 2 * RHO DO
+                    BEGIN
+                        LAMBDA := MU * RHO;
+                        TOTAL := 0;
+                        TOTALRJ := 0;
+                        TOTALTX := 0;
+                        FOR I := 1 STEP 1 UNTIL NBSIMU DO
+                            BEGIN
+                                SIMUL;
+                            END;
+                        TOTAL := TOTAL / NBSIMU;
+                        TOTALRJ := TOTALRJ / NBSIMU;
+                        TOTALTX := TOTALTX / NBSIMU;
+                        PRCT := TOTALRJ * 1. / TOTAL;
+                        WRITELN(OUTFILE, RHO , " " , C , " " , TOTAL , " " , TOTALRJ , " " , PRCT );
+                    END;
+            END;
+    END;
+/END/

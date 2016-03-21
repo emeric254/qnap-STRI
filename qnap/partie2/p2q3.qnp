@@ -1,0 +1,79 @@
+&
+/CONTROL/
+    TMAX = 1000;
+&
+/DECLARE/
+    FILE cbQ;
+    QUEUE SRC, Q;
+    REAL LAMBDA, RO, temps, minA, maxA, sumA, minT, maxT, sumT, MU = 1000;
+    INTEGER I;
+    QUEUE fakeOUT;
+    CUSTOMER INTEGER nbpsg;
+    CUSTOMER REAL Tdebut;
+&
+/STATION/
+    NAME = SRC;
+    TYPE = SOURCE;
+    SERVICE = BEGIN
+        EXP(1. / LAMBDA);
+        Tdebut := TIME;
+    END;
+    TRANSIT = Q;
+&
+/STATION/
+    NAME = Q;
+    SERVICE = BEGIN
+        EXP(1. / MU);
+    END;
+    TRANSIT = fakeOUT;
+&
+/STATION/
+    NAME = fakeOUT;
+    SERVICE = BEGIN
+        temps := (TIME - Tdebut);
+        sumT := sumT + temps;
+        IF minT > temps THEN
+            BEGIN
+                minT := temps;
+            END;
+        IF maxT < temps THEN
+            BEGIN
+                maxT := temps;
+            END;
+        sumA := sumA + CUSTNB(Q);
+        IF minA > CUSTNB(Q) THEN
+            BEGIN
+                minA := CUSTNB(Q);
+            END;
+        IF maxA < CUSTNB(Q) THEN
+            BEGIN
+                maxA := CUSTNB(Q);
+            END;
+    END;
+    TRANSIT = OUT;
+&
+/EXEC/
+    BEGIN
+        FILASSIGN(cbQ,"p2.q3.data");
+        OPEN(cbQ);
+        & boucle des simulations
+        FOR I := 1 STEP 1 UNTIL 99 DO
+            BEGIN
+                & initialisation des variables
+                RO := I * 0.010;
+                LAMBDA := RO * MU;
+                minA := 10000000;
+                maxA := 0;
+                sumA := 0;
+                minT := 10000000;
+                maxT := 0;
+                sumT := 0;
+                & simulation
+                SIMUL;
+                & affichage de la progression
+                WRITELN(I);
+                & ecriture resultats dans le fichier
+                WRITELN(cbQ,I," ",minT," ",maxT," ",sumT/SERVNB(fakeOUT)," ",minA," ",maxA," ",sumA/SERVNB(fakeOUT));
+            END;
+    END;
+/END/

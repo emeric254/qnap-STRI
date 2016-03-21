@@ -1,0 +1,163 @@
+&
+/CONTROL/
+    OPTION = NSOURCE;
+    TMAX = 100000;
+    ACCURACY = ALL QUEUE;
+&
+/DECLARE/
+    QUEUE SRC1, SRC2, SRC3, LIEN1, LIEN2, LIEN3;
+    INTEGER TOTAL, NBTX, NBRJ, LOAD, I, C, RHO, RDRB, NBSIMU;
+    REAL DEBIT, LAMBDA, MU, PCT;
+    CUSTOMER REAL DUREE;
+    FILE fichier;
+&
+/STATION/
+    NAME = SRC1;
+    TYPE = SOURCE;
+    SERVICE =  BEGIN
+        DUREE := ( 1. / MU );
+        TOTAL := TOTAL + 1;
+        EXP( 1. / LAMBDA );
+        & round robin
+        IF (RDRB = 0) THEN
+            BEGIN
+                RDRB := 1;
+                TRANSIT(LIEN1);
+            END
+        ELSE
+            BEGIN
+                RDRB := 0;
+                TRANSIT(LIEN2);
+            END;
+    END;
+    TRANSIT = OUT;
+&
+/STATION/
+    NAME = SRC2;
+    TYPE = SOURCE;
+    SERVICE =  BEGIN
+        DUREE := ( 1. / MU );
+        TOTAL := TOTAL + 1;
+        EXP( 1. / LAMBDA );
+        & round robin
+        IF (RDRB = 0) THEN
+            BEGIN
+                RDRB := 1;
+                TRANSIT(LIEN2);
+            END
+        ELSE
+            BEGIN
+                RDRB := 0;
+                TRANSIT(LIEN3);
+            END;
+    END;
+    TRANSIT = OUT;
+&
+/STATION/
+    NAME = SRC3;
+    TYPE = SOURCE;
+    SERVICE =  BEGIN
+        DUREE := ( 1. / MU );
+        TOTAL := TOTAL + 1;
+        EXP( 1. / LAMBDA );
+        & round robin
+        IF (RDRB = 0) THEN
+            BEGIN
+                RDRB := 1;
+                TRANSIT(LIEN3);
+            END
+        ELSE
+            BEGIN
+                RDRB := 0;
+                TRANSIT(LIEN1);
+            END;
+    END;
+    TRANSIT = OUT;
+&
+/STATION/
+    NAME = LIEN1;
+    TYPE = MULTIPLE(C);
+    SERVICE =  BEGIN
+        CST(DUREE);
+        TRANSIT(OUT);
+    END;
+    CAPACITY = C;
+    REJECT = BEGIN
+        IF (CUSTNB(LIEN2) < C) AND (CUSTNB(LIEN3) < C) THEN
+            BEGIN
+                TRANSIT(LIEN2);
+                TRANSIT(LIEN3);
+            END;
+        NBRJ := NBRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
+/STATION/
+    NAME = LIEN2;
+    TYPE = MULTIPLE(C);
+    SERVICE = BEGIN
+        CST(DUREE);
+        TRANSIT(LIEN3);
+    END;
+    CAPACITY = RHO;
+    REJECT = BEGIN
+        IF (CUSTNB(LIEN1) < C) AND (CUSTNB(LIEN3) < C) THEN
+            BEGIN
+                TRANSIT(LIEN1);
+                TRANSIT(LIEN3);
+            END;
+        NBRJ := NBRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
+/STATION/
+    NAME = LIEN3;
+    TYPE = MULTIPLE(C);
+    SERVICE = BEGIN
+        CST(DUREE);
+        TRANSIT(OUT);
+    END;
+    CAPACITY = C;
+    REJECT = BEGIN
+        IF (CUSTNB(LIEN1) < C) AND (CUSTNB(LIEN2) < C) THEN
+            BEGIN
+                TRANSIT(LIEN1);
+                TRANSIT(LIEN2);
+            END;
+        NBRJ := NBRJ + 1;
+        TRANSIT(OUT);
+    END;
+&
+/EXEC/
+    BEGIN
+        & output data file
+        FILASSIGN(fichier , "p1.q3-2.data");
+        OPEN(fichier);
+        & var init
+        NBSIMU := 3;
+        RDRB := 0;
+        DEBIT := 64000;
+        MU := 1. / 180;
+        LOAD := 40;
+        & process simulations
+        FOR RHO := 1 STEP 1 UNTIL LOAD DO
+            BEGIN
+                FOR C := RHO STEP 1 UNTIL 2 * RHO DO
+                    BEGIN
+                        LAMBDA := MU * RHO;
+                        TOTAL := 0;
+                        NBRJ := 0;
+                        NBTX := 0;
+                        FOR I := 1 STEP 1 UNTIL NBSIMU DO
+                            BEGIN
+                                SIMUL;
+                            END;
+                        TOTAL := TOTAL / NBSIMU;
+                        NBRJ := NBRJ / NBSIMU;
+                        NBTX := NBTX / NBSIMU;
+                        PCT := NBRJ * 1. / TOTAL;
+                        WRITELN(fichier, RHO , " " , C , " " , TOTAL , " " , NBRJ , " " , PCT );
+                    END;
+            END;
+    END;
+/END/
