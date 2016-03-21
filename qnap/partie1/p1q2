@@ -1,24 +1,20 @@
-
 &
 /CONTROL/
     OPTION = NSOURCE;
     ACCURACY = ALL QUEUE;
     TMAX = 100000;
-
 &
 /DECLARE/
     QUEUE SRC, LIEN;
-    INTEGER NbRejets, Erlang, I, C, RHO, NbSimu;
+    INTEGER NbRejets, Erlang, I, C, RHO, NBSIMU;
     REAL NbOK, DEBIT, LAMBDA, MU, REJET, X;
-    FILE cbQ;
-
+    FILE OUTFILE;
 &
 /STATION/
     NAME = SRC;
     TYPE = SOURCE;
     SERVICE = EXP(1./LAMBDA);
     TRANSIT = LIEN;
-
 &
 /STATION/
     NAME = LIEN;
@@ -33,46 +29,35 @@
         TRANSIT(OUT);
     END;
     TRANSIT = OUT;
-
 &
 /EXEC/
     BEGIN
-        FILASSIGN(cbQ , "p1.q2.data");
-        OPEN(cbQ);
-        &
+        & output data file
+        FILASSIGN(OUTFILE , "p1.q2.data");
+        OPEN(OUTFILE);
+        & var init
         DEBIT := 64000;
         MU := 1. / 180;
         Erlang := 70;
-        NbSimu := 5;
-        &
+        OUTFILE := 5;
+        & process simulations
         FOR RHO := 10 STEP 5 UNTIL Erlang DO
         BEGIN
-            &
             LAMBDA := MU * RHO;
-            &
             FOR C := RHO STEP 5 UNTIL (RHO * 2) DO
             BEGIN
-                &
                 NbOK := 0;
                 NbRejets := 0;
-                &
-                FOR I := 1 STEP 1 UNTIL NbSimu DO
+                FOR I := 1 STEP 1 UNTIL NBSIMU DO
                 BEGIN
                     SIMUL;
                 END;
-                &
-                NbOK := NbOK / NbSimu;
-                NbRejets := NbRejets / NbSimu;
-                &
-                WRITELN(cbQ , " " , RHO , " " , C , " " , NbRejets , " " , NbOK , " " , NbRejets / (NbOK + NbRejets));
+                NbOK := NbOK / NBSIMU;
+                NbRejets := NbRejets / NBSIMU;
+                WRITELN(OUTFILE , " " , RHO , " " , C , " " , NbRejets , " " , NbOK , " " , NbRejets / (NbOK + NbRejets));
             END;
             &
         END;
     END;
-
 &
 /END/
-
-&
-& plot "p1.q2.data" u 1:2 w l t "taux de rejet"
-&
