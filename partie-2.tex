@@ -104,7 +104,6 @@ On obtient le même temps moyen de service que précédemment :
 %
             \subsubsection{Résultats en fonction du taux d'arrivée pour différentes durées de simulation}
 %
-% voir pour trouver des formules, la progression doit être linéaire en fonction de $\rho$.
                 \paragraph{}
 Blablabla 2
 Temps moyen de réponse et nombre moyen de paquets dans la file d'attente :
@@ -115,19 +114,19 @@ Temps moyen de réponse et nombre moyen de paquets dans la file d'attente :
             \[  \text{Temps moyen de reponse} \ \bar{W} = \frac{1}{2 * (\mu - \lambda)} \]
             \[  \bar{N} = \lambda \bar{W} \]
 %
-            %~ \begin{center}
-                %~ \begin{tabular}{ | c | c| c | c | }
-                    %~ \hline
-                        %~ $\rho$ & 0.1 & 0.5 & 0.9 \\
-                    %~ \hline
-                        %~ $\lambda$ & $10^{2}$ & $5 * 10^{2}$ & $9 * 10^{2}$ \\
-                    %~ \hline
-                        %~ Nombre moyen de client & 0.11111 & 1 & 9 \\
-                    %~ \hline
-                        %~ Temps moyen de réponse [s] & 0.00111 & 0.002 & 0.01 \\
-                    %~ \hline
-                %~ \end{tabular}
-            %~ \end{center}
+            \begin{center}
+                \begin{tabular}{ | c | c| c | c | }
+                    \hline
+                        $\rho$                                      & 0.1       & 0.5           & 0.9           \\
+                    \hline
+                        $\lambda$                                   & $10^{2}$  & $5 * 10^{2}$  & $9 * 10^{2}$  \\
+                    \hline
+                        Nombre moyen de client en file d'attente    & 0.05555   & 0.5           & 4.5           \\
+                    \hline
+                        Temps moyen de réponse [s]                  & 0.00055   & 0.001         & 0.005         \\
+                    \hline
+                \end{tabular}
+            \end{center}
 %
 %
             \subsubsection{Analyse et comparaison des résultats}
