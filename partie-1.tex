@@ -33,7 +33,7 @@ Le nombre d'utilisateurs est suffisamment grand pour supposer que les arrivées 
             \[ P(\text{blocage}) = \frac{ \frac{ \rho^C }{ C! } }{ \sum\limits_{i=0}^C \frac{ \rho^i }{ i! } } \]
 %
             \begin{center}
-                avec $\rho$ la charge en Erlang et $C$ la capacité.
+                avec $\rho$ la charge et $C$ la capacité.
             \end{center}
 %
             \paragraph{}
@@ -57,7 +57,7 @@ Voici les résultats de ce calcul, obtenus par notre script Python inclus en ann
         \subsection{Simulation de cette probabilité de blocage}
 %
             \paragraph{}
-Pour une charge $10 < \rho < 70$ et pour une capacité $\rho < C < 2*\rho$.
+Pour une charge $10 < \rho < 70$ et pour une capacité $\rho < C < 2*\rho$, on obtient les resultats suivants.
 % TODO >>> SIMULATION ici graphique avec k et rho qui changent
         \begin{figure}[h]
             \centering
@@ -75,7 +75,7 @@ Pour une charge $10 < \rho < 70$ et pour une capacité $\rho < C < 2*\rho$.
 %
         \subsection{Comparaison des taux de blocage expérimentaux et théoriques}
             \paragraph{}
-Blablabla 1
+On constate que les resultats sont similaires, les erreurs de simulation sont gommées par le nombre de simulations important (cela réduit les écarts aléatoires) et leur longue durée (ce qui assure un régime stable).
 %
 %
     \clearpage
@@ -108,11 +108,11 @@ Nous ne considérons pas les appels locaux ni les appels qui n'aboutissent pas (
         \subsection{Probabilités de blocage avec le chemin de débordement en cas de saturation du chemin direct}
 %
             \paragraph{}
-Blablabla 2
-Avec un canal de débordement on obtient donc une capacité doublée, il n'y plus de blocage ... ?
+Chaque routeur est représenté par une source qui émet alternativement sur ces deux liens à destination des deux autres routeurs. Lorsqu'un lien est surchargé, un routeur tente d'utiliser le chemin de débordement qu'il a à disposition.
+On imagine déjà qu'en cas de forte charge un problème de saturation du système sera inévitable.
 %
         \subsection{Comparaison des résultats avec la partie \ref{seullien}}
-        % (on choisira donc des charges de trafic et des capacités de liens équivalentes)
+% (on choisira donc des charges de trafic et des capacités de liens équivalentes)
 Blablabla 3
     % TODO >>>
     % ici graphique simulation et calculs ??
@@ -154,7 +154,7 @@ Blablabla 4
             \subsubsection{Simulation en prenant une marge comprise entre 1 et 3}
 %
                 \paragraph{}
-Blablabla 5
+Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les débordements est présent.
 % TODO >>> ici graphique simulation
             %~ \begin{figure}
                 %~ \centering
