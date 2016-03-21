@@ -41,7 +41,7 @@ Voici les résultats de ce calcul, obtenus par notre script Python inclus en ann
             \begin{figure}[h]
                 \centering
                 \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
-                    set xlabel 'Capacite'
+                    set xlabel 'Capacité'
                     set ylabel 'Taux de rejet'
                     plot "qnap/partie1/calcul.p1.q1.data" u 1:( $2 ==10 ? $3 : 1/0) w l t "Charge de 10", \
                             "qnap/partie1/calcul.p1.q1.data" u 1:( $2 ==20 ? $3 : 1/0) w l t "Charge de 20", \
@@ -68,7 +68,7 @@ Pour une charge $10 < \rho < 70$ et pour une capacité $\rho < C < 2*\rho$, on o
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
-                set xlabel 'Capacite'
+                set xlabel 'Capacité'
                 set ylabel 'Taux de rejet'
                 plot "qnap/partie1/p1.q2.data" u 2:( $1 ==10 ? $5 : 1/0) w l t "Charge de 10", \
                         "qnap/partie1/p1.q2.data" u 2:( $1 ==20 ? $5 : 1/0) w l t "Charge de 20", \
@@ -125,12 +125,12 @@ Chaque routeur est représenté par une source qui émet alternativement sur ces
 On imagine déjà qu'en cas de forte charge un problème de saturation du système sera inévitable.
 %
         \subsection{Comparaison des résultats avec la partie \ref{seullien}}
-% (on choisira donc des charges de trafic et des capacités de liens équivalentes)
 Blablabla 3
+La simulation se termine brutalement avant d'atteindre une charge de 40, le réseau sature.
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
-                set xlabel 'Capacite'
+                set xlabel 'Capacité'
                 set ylabel 'Taux de rejet'
                 plot "qnap/partie1/p1.q3-2.data" u 2:( $1 ==10 ? $5 : 1/0) w l t "Charge de 10", \
                         "qnap/partie1/p1.q3-2.data" u 2:( $1 ==20 ? $5 : 1/0) w l t "Charge de 20", \
@@ -164,7 +164,7 @@ Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les dé
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
-                set xlabel 'Capacite'
+                set xlabel 'Capacité'
                 set ylabel 'Taux de rejet'
                 plot "qnap/partie1/p1.q4.data" u 3:( $1 ==1 ? ($2 == 10 ? $6 :1/0) : 1/0) w l t "Charge de 10", \
                         "qnap/partie1/p1.q4.data" u 3:( $1 ==1 ? ($2 == 20 ? $6 :1/0) : 1/0) w l t "Charge de 20", \
@@ -177,7 +177,7 @@ Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les dé
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
-                set xlabel 'Capacite'
+                set xlabel 'Capacité'
                 set ylabel 'Taux de rejet'
                 plot "qnap/partie1/p1.q4.data" u 3:( $1 ==2 ? ($2 == 10 ? $6 :1/0) : 1/0) w l t "Charge de 10", \
                         "qnap/partie1/p1.q4.data" u 3:( $1 ==2 ? ($2 == 20 ? $6 :1/0) : 1/0) w l t "Charge de 20", \
@@ -190,7 +190,7 @@ Plus on augmente la marge, moins l'effet d'auto-saturation provoqué par les dé
         \begin{figure}[h]
             \centering
             \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
-                set xlabel 'Capacite'
+                set xlabel 'Capacité'
                 set ylabel 'Taux de rejet'
                 plot "qnap/partie1/p1.q4.data" u 3:( $1 ==3 ? ($2 == 10 ? $6 :1/0) : 1/0) w l t "Charge de 10", \
                         "qnap/partie1/p1.q4.data" u 3:( $1 ==3 ? ($2 == 20 ? $6 :1/0) : 1/0) w l t "Charge de 20", \
