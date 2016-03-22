@@ -7,7 +7,7 @@
 /DECLARE/
     QUEUE SRC1, SRC2, SRC3, LIEN1, LIEN2, LIEN3;
     INTEGER TOTAL, NBTX, NBRJ, LOAD, I, C, RHO, RDRB, NBSIMU, MARGE;
-    REAL DEBIT, LAMBDA, MU, PCT;
+    REAL LAMBDA, MU, PCT;
     CUSTOMER REAL DUREE;
     FILE fichier;
 &
@@ -136,7 +136,6 @@
         & var init
         NBSIMU := 3;
         RDRB := 0;
-        DEBIT := 64000;
         MU := 1. / 180;
         LOAD := 40;
         & process simulations
